@@ -1,0 +1,938 @@
+version: "3.1"
+
+stories:
+- story: interactive story 1
+  steps:
+  - intent: greet
+  - action: utter_greet
+  - action: name_form
+  - active_loop: name_form
+  - slot_was_set:
+    - requested_slot: first_name
+  - slot_was_set:
+    - first_name: vincent
+  - slot_was_set:
+    - requested_slot: last_name
+  - slot_was_set:
+    - last_name: mcvincent
+  - slot_was_set:
+    - requested_slot: null
+  - active_loop: null
+  - action: action_deactivate_loop
+  - action: utter_submit_name_form
+  - intent: affirm
+  - action: utter_slots_name_form
+
+- story: sad path 1
+  steps:
+  - intent: mood_unhappy
+  - action: utter_cheer_up
+  - action: utter_did_that_help
+  - intent: affirm
+  - action: utter_happy
+
+- story: sad path 2
+  steps:
+  - intent: mood_unhappy
+  - action: utter_cheer_up
+  - action: utter_did_that_help
+  - intent: deny
+  - action: utter_goodbye
+
+- story: attraction_with_faq
+  steps:
+  - intent: nearest_attraction
+  - action: action_nearest_attractions
+  - intent: faq
+  - action: utter_faq_prompt
+  - intent: details_attraction
+  - action: attraction_form
+  - active_loop: attraction_form
+  - slot_was_set:
+    - requested_slot: attraction
+  - slot_was_set:
+    - requested_slot: null
+  - active_loop: null
+  - intent: goodbye
+  - action: utter_goodbye
+  - action: action_reset
+
+- story: attraction_2
+  steps:
+  - intent: nearest_attraction
+  - action: action_nearest_attractions
+  - intent: details_attraction
+  - action: attraction_form
+  - active_loop: attraction_form
+  - slot_was_set:
+    - requested_slot: attraction
+  - intent: deny
+  - action: utter_ask_continue
+  - intent: deny
+  - action: action_deactivate_loop
+  - active_loop: null
+  - intent: goodbye
+  - action: utter_goodbye
+  - action: action_reset
+
+- story: attraction_3
+  steps:
+  - intent: nearest_attraction
+  - action: action_nearest_attractions
+  - intent: details_attraction
+  - action: attraction_form
+  - active_loop: attraction_form
+  - slot_was_set:
+    - attraction: castelfidardo
+  - slot_was_set:
+    - attraction: castelfidardo
+  - slot_was_set:
+    - requested_slot: attraction
+  - intent: deny
+  - action: utter_ask_continue
+  - intent: deny
+  - action: action_deactivate_loop
+  - active_loop: null
+  - intent: goodbye
+  - action: utter_goodbye
+  - action: action_reset
+
+- story: All the attractions
+  steps:
+  - intent: nearest_attraction
+  - action: action_nearest_attractions
+  - intent: details_attraction
+  - action: attraction_form
+  - active_loop: attraction_form
+  - slot_was_set:
+    - requested_slot: attraction
+  - active_loop: null
+  - intent: details_attraction
+  - action: attraction_form
+  - active_loop: attraction_form
+  - slot_was_set:
+    - attraction: loreto
+  - slot_was_set:
+    - attraction: loreto
+  - slot_was_set:
+    - requested_slot: attraction
+  - intent: deny
+  - action: utter_ask_continue
+  - intent: deny
+  - action: action_deactivate_loop
+  - active_loop: null
+  - intent: goodbye
+  - action: utter_goodbye
+  - action: action_reset
+
+- story: details_1
+  steps:
+  - intent: check_rooms
+  - action: action_check_rooms
+  - intent: deluxe_room_details
+  - action: utter_deluxeroom_details
+
+- story: details_2
+  steps:
+  - intent: check_rooms
+  - action: action_check_rooms
+  - intent: club_suite_details
+  - action: utter_clubsuite_details
+
+- story: details_3
+  steps:
+  - intent: check_rooms
+  - action: action_check_rooms
+  - intent: junior_suite_details
+  - action: utter_juniorsuite_details
+
+- story: all_details
+  steps:
+  - intent: check_rooms
+  - action: action_check_rooms
+  - intent: deluxe_room_details
+  - action: utter_deluxeroom_details
+  - intent: club_suite_details
+  - action: utter_clubsuite_details
+  - intent: junior_suite_details
+  - action: utter_juniorsuite_details
+
+- story: FAQbreakfast_menu
+  steps:
+  - intent: faq
+  - action: utter_faq_prompt
+  - intent: faq_breakfast_menu
+  - action: utter_breakfastmenu
+
+- story: FAQbreakfast_time
+  steps:
+  - intent: faq
+  - action: utter_faq_prompt
+  - intent: faq_breakfast_time
+  - action: utter_breakfasttime
+
+- story: FAQcancellation
+  steps:
+  - intent: faq
+  - action: utter_faq_prompt
+  - intent: faq_cancellationpolicy
+  - action: utter_cancellationpolicy
+
+- story: FAQcheckin
+  steps:
+  - intent: faq
+  - action: utter_faq_prompt
+  - intent: faq_checkin
+  - action: utter_check_in
+
+- story: FAQcheckout
+  steps:
+  - intent: faq
+  - action: utter_faq_prompt
+  - intent: faq_checkout
+  - action: utter_check_out
+
+- story: FAQchildren
+  steps:
+  - intent: faq
+  - action: utter_faq_prompt
+  - intent: faq_children
+  - action: utter_childrenage
+
+- story: FAQnumber_of_rooms
+  steps:
+  - intent: faq
+  - action: utter_faq_prompt
+  - intent: faq_bookcount
+  - action: utter_roomcount
+
+- story: FAQnumber_of_rooms
+  steps:
+  - intent: faq
+  - action: utter_faq_prompt
+  - intent: faq_refund
+  - action: utter_refundable
+
+- story: FAQreception
+  steps:
+  - intent: faq
+  - action: utter_faq_prompt
+  - intent: faq_reception
+  - action: utter_receptiontime
+
+- story: FAQpet
+  steps:
+  - intent: faq
+  - action: utter_faq_prompt
+  - intent: faq_petpolicy
+  - action: utter_petpolicy
+
+- story: FAQreservation_confirm
+  steps:
+  - intent: faq
+  - action: utter_faq_prompt
+  - intent: faq_reservconfirm
+  - action: utter_reservationconfirm
+
+- story: FAQcontacts
+  steps:
+  - intent: faq
+  - action: utter_faq_prompt
+  - intent: faq_contact
+  - action: utter_contactnumber
+
+- story: User interrupts the form and doesn't want to continue
+  steps:
+  - intent: details_attraction
+  - action: attraction_form
+  - active_loop: attraction_form
+  - intent: deny
+  - action: utter_ask_continue
+  - or: 
+    - intent: affirm
+    - intent: mood_great
+  - slot_was_set:
+    - attraction: recanati
+  - slot_was_set:
+    - attraction: recanati
+  - slot_was_set:
+    - requested_slot: attraction
+  - slot_was_set:
+    - requested_slot: null
+  - active_loop: null
+  - intent: goodbye
+  - action: utter_goodbye
+  - action: action_reset
+
+- story: User interrupts the booking form and doesn't want to continue
+  steps:
+  - intent: book_rooms
+  - action: book_room_form
+  - active_loop: book_room_form
+  - intent: deny
+  - action: utter_ask_continue
+  - intent: deny
+  - action: action_deactivate_loop
+  - active_loop: null
+
+- story: User gives his/her name
+  steps:
+  - intent: start
+  - action: utter_start
+  - action: name_form
+  - active_loop: name_form
+  - slot_was_set:
+    - requested_slot: first_name
+  - slot_was_set:
+    - first_name: gino
+  - slot_was_set:
+    - first_name: gino
+  - slot_was_set:
+    - requested_slot: last_name
+  - slot_was_set:
+    - last_name: paoli
+  - slot_was_set:
+    - last_name: paoli
+  - slot_was_set:
+    - requested_slot: null
+  - active_loop: null
+  - action: utter_submit_name_form
+  - intent: affirm
+  - action: utter_slots_name_form
+  - intent: goodbye
+  - action: utter_goodbye
+  - action: action_reset
+
+- story: Start Name 2
+  steps:
+  - intent: greet
+  - action: utter_greet
+  - action: name_form
+  - active_loop: name_form
+  - slot_was_set:
+    - requested_slot: first_name
+  - slot_was_set:
+    - first_name: Mark
+  - slot_was_set:
+    - first_name: Mark
+  - slot_was_set:
+    - requested_slot: last_name
+  - slot_was_set:
+    - last_name: Antony
+  - slot_was_set:
+    - last_name: Antony
+  - active_loop: null
+  - action: utter_submit_name_form
+  - intent: deny
+  - action: action_reset
+  - action: name_form
+  - slot_was_set:
+    - requested_slot: first_name
+  - slot_was_set:
+    - first_name: Mark
+  - slot_was_set:
+    - first_name: Mark
+  - slot_was_set:
+    - requested_slot: last_name
+  - slot_was_set:
+    - last_name: Anton
+  - action: utter_submit_name_form
+  - intent: affirm
+  - action: utter_slots_name_form
+
+
+- story: Name form with interruption story
+  steps:
+  - intent: start
+  - action: utter_start
+  - action: name_form
+  - active_loop: name_form
+  - slot_was_set:
+    - requested_slot: first_name
+  - slot_was_set:
+    - first_name: giova
+  - slot_was_set:
+    - first_name: giova
+  - slot_was_set:
+    - requested_slot: last_name
+  - slot_was_set:
+    - last_name: re
+  - slot_was_set:
+    - requested_slot: null
+  - active_loop: null
+  - action: utter_submit_name_form
+  - intent: deny
+  - action: action_reset
+  - action: name_form
+  - active_loop: name_form
+  - slot_was_set:
+    - requested_slot: first_name
+  - slot_was_set:
+    - first_name: giovanna
+  - slot_was_set:
+    - first_name: giovanna
+  - slot_was_set:
+    - requested_slot: last_name
+  - slot_was_set:
+    - last_name: re
+  - slot_was_set:
+    - requested_slot: re
+  - active_loop: null
+  - action: utter_submit_name_form
+  - intent: affirm
+  - active_loop: null
+  - action: utter_slots_name_form
+  - intent: goodbye
+  - action: utter_goodbye
+  - action: action_reset
+
+- story: Booking form with interruption story
+  steps:
+  - intent: book_rooms
+  - action: book_room_form
+  - active_loop: book_room_form
+  - slot_was_set:
+    - requested_slot: adults
+  - slot_was_set:
+    - adults: 4
+  - slot_was_set:
+    - adults: 4
+  - slot_was_set:
+    - requested_slot: kids
+  - slot_was_set:
+    - kids: 0
+  - slot_was_set:
+    - kids: 0
+  - intent: deny
+  - action: utter_ask_continue
+  - intent: deny
+  - action: action_deactivate_loop
+  - active_loop: null
+  - intent: goodbye
+  - action: utter_goodbye
+  - action: action_reset
+
+- story: Booking form with interruption story 2
+  steps:
+  - intent: book_rooms
+  - action: book_room_form
+  - active_loop: book_room_form
+  - slot_was_set:
+    - requested_slot: adults
+  - slot_was_set:
+    - adults: 1
+  - slot_was_set:
+    - adults: null
+  - slot_was_set:
+    - requested_slot: kids
+  - slot_was_set:
+    - kids: 0
+  - slot_was_set:
+    - kids: null
+  - slot_was_set:
+    - requested_slot: checkin
+  - slot_was_set:
+    - checkin: "03/08/2024"
+  - slot_was_set:
+    - checkin: null
+  - slot_was_set:
+    - requested_slot: checkout
+  - slot_was_set:
+    - checkout: "13/10/2024"
+  - slot_was_set:
+    - checkout: null
+  - slot_was_set:
+    - requested_slot: email
+  - slot_was_set:
+    - email: 'chri.asc@libero.com'
+  - slot_was_set:
+    - email: null
+  - slot_was_set:
+    - requested_slot: phno
+  - slot_was_set:
+    - phno: null
+  - intent: deny
+  - action: utter_ask_continue
+  - intent: deny
+  - action: action_deactivate_loop
+  - active_loop: null
+  - intent: goodbye
+  - action: utter_goodbye
+  - action: action_reset
+  
+- story: First Book Form
+  steps:
+  - intent: book_rooms
+  - action: book_room_form
+  - active_loop: book_room_form
+  - slot_was_set:
+    - requested_slot: adults
+  - slot_was_set:
+    - adults: 1
+  - slot_was_set:
+    - adults: null
+  - slot_was_set:
+    - requested_slot: kids
+  - slot_was_set:
+    - kids: 0
+  - slot_was_set:
+    - kids: null
+  - slot_was_set:
+    - requested_slot: checkin
+  - slot_was_set:
+    - checkin: "03/08/2024"
+  - slot_was_set:
+    - checkin: null
+  - slot_was_set:
+    - requested_slot: checkout
+  - slot_was_set:
+    - checkout: "13/10/2024"
+  - slot_was_set:
+    - checkout: null
+  - slot_was_set:
+    - requested_slot: email
+  - slot_was_set:
+    - email: 'paul_john@live.com'
+  - slot_was_set:
+    - email: null
+  - slot_was_set:
+    - requested_slot: phno
+  - slot_was_set:
+    - phno: '0044 452 76 05 533'
+  - slot_was_set:
+    - phno: null
+  - slot_was_set:
+    - requested_slot: room
+  - slot_was_set:
+    - room: Club Suite
+  - slot_was_set:
+    - room: Club Suite
+  - slot_was_set:
+    - requested_slot: null
+  - active_loop: null
+  - action: utter_submit_book_room_form
+  - action: action_book_room_details
+  - intent: goodbye
+  - action: utter_goodbye
+  - action: action_reset
+
+- story: Book Form with doubt
+  steps:
+  - intent: book_rooms
+  - action: book_room_form
+  - active_loop: book_room_form
+  - slot_was_set:
+    - requested_slot: adults
+  - slot_was_set:
+    - adults: 1
+  - slot_was_set:
+    - adults: null
+  - slot_was_set:
+    - requested_slot: kids
+  - slot_was_set:
+    - kids: 0
+  - slot_was_set:
+    - kids: null
+  - slot_was_set:
+    - requested_slot: checkin
+  - slot_was_set:
+    - checkin: "03/08/2024"
+  - slot_was_set:
+    - checkin: null
+  - slot_was_set:
+    - requested_slot: checkout
+  - slot_was_set:
+    - checkout: "13/10/2024"
+  - slot_was_set:
+    - checkout: null
+  - intent: deny
+  - action: utter_ask_continue
+  - intent: affirm
+  - slot_was_set:
+    - requested_slot: email
+  - slot_was_set:
+    - email: 'chri.asc@libero.com'
+  - slot_was_set:
+    - email: null
+  - slot_was_set:
+    - requested_slot: phno
+  - slot_was_set:
+    - phno: '0039 345 76 74 543'
+  - slot_was_set:
+    - phno: null
+  - slot_was_set:
+    - requested_slot: room
+  - slot_was_set:
+    - room: Junior Suite
+  - slot_was_set:
+    - room: Junior Suite
+  - slot_was_set:
+    - requested_slot: null
+  - active_loop: null
+  - action: utter_submit_book_room_form
+  - action: action_book_room_details
+  - intent: goodbye
+  - action: utter_goodbye
+  - action: action_reset
+
+- story: Book Form 2
+  steps:
+  - intent: book_rooms
+  - action: book_room_form
+  - active_loop: book_room_form
+  - slot_was_set:
+    - requested_slot: adults
+  - slot_was_set:
+    - adults: 4
+  - slot_was_set:
+    - requested_slot: kids
+  - slot_was_set:
+    - kids: 2
+  - slot_was_set:
+    - requested_slot: checkin
+  - slot_was_set:
+    - checkin: 09/04/2024
+  - slot_was_set:
+    - requested_slot: checkout
+  - slot_was_set:
+    - checkout: 16/04/2024
+  - slot_was_set:
+    - requested_slot: email
+  - slot_was_set:
+    - email: paolol@libero.com
+  - slot_was_set:
+    - requested_slot: phno
+  - slot_was_set:
+    - phno: "0039 345 223 43 75"
+  - slot_was_set:
+    - requested_slot: room
+  - slot_was_set:
+    - room: "Junior Suite"
+  - active_loop: null
+  - action: utter_submit_book_room_form
+  - action: action_book_room_details
+  - intent: goodbye
+  - action: utter_goodbye
+  - action: action_reset
+
+- story: Room details and reservation
+  steps:
+  - intent: check_rooms
+  - action: action_check_rooms
+  - intent: deluxe_room_details
+  - action: utter_deluxeroom_details
+  - intent: book_rooms
+  - action: book_room_form
+  - active_loop: book_room_form
+  - slot_was_set:
+    - requested_slot: adults
+  - slot_was_set:
+    - adults: 3
+  - slot_was_set:
+    - requested_slot: kids
+  - slot_was_set:
+    - kids: 0
+  - slot_was_set:
+    - requested_slot: checkin
+  - slot_was_set:
+    - checkin: 4/12/2025
+  - slot_was_set:
+    - requested_slot: checkout
+  - slot_was_set:
+    - checkout: 10/6/2026
+  - slot_was_set:
+    - requested_slot: email
+  - slot_was_set:
+    - email: paolol@libero.com
+  - slot_was_set:
+    - requested_slot: phno
+  - slot_was_set:
+    - phno: "0039 345 223 43 75"
+  - slot_was_set:
+    - requested_slot: room
+  - slot_was_set:
+    - room: Deluxe Room
+  - active_loop: null
+  - action: utter_submit_book_room_form
+  - action: action_book_room_details
+  - intent: goodbye
+  - action: utter_goodbye
+  - action: action_reset
+
+- story: Main attractions, room details and reservation
+  steps:
+  - intent: greet
+  - action: utter_greet
+  - action: name_form
+  - active_loop: name_form
+  - slot_was_set:
+    - requested_slot: first_name
+  - slot_was_set:
+    - first_name: ian
+  - slot_was_set:
+    - requested_slot: last_name
+  - slot_was_set:
+    - last_name: gillan
+  - slot_was_set:
+    - requested_slot: null
+  - active_loop: null
+  - action: action_deactivate_loop
+  - action: utter_submit_name_form
+  - intent: affirm
+  - action: utter_slots_name_form
+  - intent: nearest_attraction
+  - action: action_nearest_attractions
+  - intent: details_attraction
+  - action: attraction_form
+  - active_loop: attraction_form
+  - slot_was_set:
+    - requested_slot: attraction
+  - slot_was_set:
+    - attraction: ancona
+  - active_loop: null
+  - intent: check_rooms
+  - action: action_check_rooms
+  - intent: junior_suite_details
+  - action: utter_juniorsuite_details
+  - intent: book_rooms
+  - action: book_room_form
+  - active_loop: book_room_form
+  - slot_was_set:
+    - requested_slot: adults
+  - slot_was_set:
+    - adults: 3
+  - slot_was_set:
+    - requested_slot: kids
+  - slot_was_set:
+    - kids: 0
+  - slot_was_set:
+    - requested_slot: checkin
+  - slot_was_set:
+    - checkin: 4/12/2023
+  - slot_was_set:
+    - requested_slot: checkout
+  - slot_was_set:
+    - checkout: 10/12/2023
+  - slot_was_set:
+    - requested_slot: email
+  - slot_was_set:
+    - email: paolol@libero.com
+  - slot_was_set:
+    - requested_slot: phno
+  - slot_was_set:
+    - phno: "0039 345 223 43 75"
+  - slot_was_set:
+    - requested_slot: room
+  - slot_was_set:
+    - room: Deluxe Room
+  - active_loop: null
+  - action: utter_submit_book_room_form
+  - action: action_book_room_details
+  - intent: goodbye
+  - action: utter_goodbye
+  - action: action_reset
+
+- story: Wrong name, main attractions, room details and reservation
+  steps:
+  - intent: greet
+  - action: utter_greet
+  - action: name_form
+  - active_loop: name_form
+  - slot_was_set:
+    - requested_slot: first_name
+  - slot_was_set:
+    - first_name: bo
+  - slot_was_set:
+    - requested_slot: last_name
+  - slot_was_set:
+    - last_name: thalos
+  - slot_was_set:
+    - requested_slot: null
+  - active_loop: null
+  - action: utter_submit_name_form
+  - intent: deny
+  - action: action_reset
+  - action: name_form
+  - slot_was_set:
+    - requested_slot: first_name
+  - slot_was_set:
+    - first_name: bob
+  - slot_was_set:
+    - requested_slot: last_name
+  - slot_was_set:
+    - last_name: thalos
+  - slot_was_set:
+    - requested_slot: null
+  - active_loop: null
+  - action: utter_submit_name_form
+  - intent: affirm
+  - action: utter_slots_name_form
+  - intent: nearest_attraction
+  - action: action_nearest_attractions
+  - intent: details_attraction
+  - action: attraction_form
+  - active_loop: attraction_form
+  - slot_was_set:
+    - requested_slot: attraction
+  - slot_was_set:
+    - attraction: castelfidardo
+  - active_loop: null
+  - intent: check_rooms
+  - action: action_check_rooms
+  - intent: junior_suite_details
+  - action: utter_juniorsuite_details
+  - intent: book_rooms
+  - action: book_room_form
+  - active_loop: book_room_form
+  - slot_was_set:
+    - requested_slot: adults
+  - slot_was_set:
+    - adults: 3
+  - slot_was_set:
+    - requested_slot: kids
+  - slot_was_set:
+    - kids: 0
+  - slot_was_set:
+    - requested_slot: checkin
+  - slot_was_set:
+    - checkin: 09/04/2024
+  - slot_was_set:
+    - requested_slot: checkout
+  - slot_was_set:
+    - checkout: 1/1/2025
+  - slot_was_set:
+    - requested_slot: email
+  - slot_was_set:
+    - email: paolol@libero.com
+  - slot_was_set:
+    - requested_slot: phno
+  - slot_was_set:
+    - phno: "0039 345 223 43 75"
+  - slot_was_set:
+    - requested_slot: room
+  - slot_was_set:
+    - room: Deluxe Room
+  - active_loop: null
+  - action: utter_submit_book_room_form
+  - action: action_book_room_details
+  - intent: goodbye
+  - action: utter_goodbye
+  - action: action_reset
+
+
+- story: Booking form with interruption and reprise story
+  steps:
+  - intent: book_rooms
+  - action: book_room_form
+  - active_loop: book_room_form
+  - slot_was_set:
+    - requested_slot: adults
+  - slot_was_set:
+    - adults: 8
+  - slot_was_set:
+    - adults: null
+  - slot_was_set:
+    - requested_slot: kids
+  - slot_was_set:
+    - kids: 5
+  - slot_was_set:
+    - kids: null
+  - slot_was_set:
+    - requested_slot: checkin
+  - slot_was_set:
+    - checkin: "09/09/2029"
+  - slot_was_set:
+    - checkin: null
+  - slot_was_set:
+    - requested_slot: checkout
+  - slot_was_set:
+    - checkout: "16/10/2029"
+  - slot_was_set:
+    - checkout: null
+  - slot_was_set:
+    - requested_slot: email
+  - slot_was_set:
+    - email: 'jamesB@hotmail.it'
+  - slot_was_set:
+    - email: null
+  - slot_was_set:
+    - requested_slot: phno
+  - slot_was_set:
+    - phno: null
+  - intent: deny
+  - action: utter_ask_continue
+  - intent: affirm
+  - slot_was_set:
+    - requested_slot: phno
+  - slot_was_set:
+    - phno: "+44 0547234543"
+  - slot_was_set:
+    - requested_slot: room
+  - slot_was_set:
+    - room: Junior Suite
+  - active_loop: null
+  - action: utter_submit_book_room_form
+  - action: action_book_room_details
+  - intent: faq_bookcount
+  - action: utter_roomcount
+  - intent: summary_booking
+  - action: action_book_room_details
+
+# - story: User interrupts the form and doesn't want to continue
+#   steps:
+#   - intent: greet
+#   - action: utter_greet
+#   - intent: buy_pizza
+#   - action: simple_pizza_form
+#   - active_loop: simple_pizza_form
+#   - intent: stop
+#   - action: utter_ask_continue
+#   - or: 
+#     - intent: stop
+#     - intent: affirm
+#   - action: action_deactivate_loop
+#   - active_loop: null
+
+# - story: interactive_story_2
+#   steps:
+#   - intent: greet
+#   - action: utter_greet
+#   - intent: buy_pizza
+#   - action: simple_pizza_form
+#   - active_loop: simple_pizza_form
+#   - slot_was_set:
+#     - requested_slot: pizza_size
+#   - intent: stop
+#   - action: utter_ask_continue
+#   - intent: stop
+#   - action: action_deactivate_loop
+#   - active_loop: null
+#   - slot_was_set:
+#     - requested_slot: null
+#   - intent: goodbye
+#   - action: utter_goodbye
+
+# - story: interactive_story_1
+  # steps:
+  # - intent: greet
+  # - action: utter_greet
+  # - intent: buy_pizza
+  # - action: simple_pizza_form
+  # - active_loop: simple_pizza_form
+  # - slot_was_set:
+  #   - requested_slot: pizza_size
+  # - slot_was_set:
+  #   - pizza_size: s
+  # - slot_was_set:
+  #   - pizza_size: s
+  # - slot_was_set:
+  #   - requested_slot: pizza_type
+  # - intent: stop
+  # - action: utter_ask_continue
+  # - intent: affirm
+  # - action: action_deactivate_loop
+  # - active_loop: null
+  # - slot_was_set:
+  #   - requested_slot: null
+  # - intent: goodbye
+  # - action: utter_goodbye

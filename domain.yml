@@ -1,0 +1,287 @@
+version: "3.1"
+session_config:
+  session_expiration_time: 60
+  carry_over_slots_to_new_session: true
+intents:
+- start
+- stop
+- greet
+- goodbye
+- affirm
+- deny
+- mood_great
+- mood_unhappy
+- bot_challenge
+- nlu_fallback
+- nearest_attraction
+- details_attraction
+- check_rooms
+- deluxe_room_details
+- junior_suite_details
+- club_suite_details
+- faq
+- faq_breakfast_menu
+- faq_breakfast_time
+- faq_cancellationpolicy
+- faq_checkin
+- faq_checkout
+- faq_children
+- faq_petpolicy
+- faq_bookcount
+- faq_refund
+- faq_reception
+- faq_reservconfirm
+- faq_contact
+- book_rooms
+- inform_people
+- inform_date
+- inform_contacts
+- inform_room
+- summary_booking
+entities:
+- attraction
+- people:
+    roles:
+      - adults
+      - kids
+- date:
+    roles:
+      - checkin
+      - checkout
+- contacts:
+    roles:
+      - email
+      - phno
+- room
+slots: 
+  first_name: 
+    type: text
+    influence_conversation: true
+    mappings:
+    - type: from_text
+      conditions:
+      - active_loop: name_form
+        requested_slot: first_name
+  last_name: 
+    type: text
+    influence_conversation: true
+    mappings:
+    - type: from_text
+      conditions:
+      - active_loop: name_form
+        requested_slot: last_name
+  attraction:
+    type: text
+    influence_conversation: false
+    mappings:
+    - type: from_entity
+      entity: attraction
+  checkin: 
+    type: text
+    influence_conversation: true
+    mappings:
+    - type: from_entity
+      entity: date
+      role: checkin
+  checkout: 
+    type: text
+    influence_conversation: true
+    mappings:
+    - type: from_entity
+      entity: date
+      role: checkout
+  adults: 
+    type: any
+    mappings:
+    - type: from_entity
+      entity: people
+      role: adults
+  kids: 
+    type: any
+    mappings:
+    - type: from_entity
+      entity: people
+      role: kids
+  email: 
+    type: text
+    influence_conversation: true
+    mappings:
+    - type: from_entity
+      entity: contacts
+      role: email
+  phno: 
+    type: text
+    influence_conversation: true
+    mappings:
+    - type: from_entity
+      entity: contacts
+      role: phno
+  room: 
+    type: categorical
+    values:
+      - Deluxe Room
+      - Club Suite
+      - Junior Suite
+    mappings:
+    - type: from_entity
+      entity: room
+forms:
+  book_room_form:
+    required_slots:
+    - adults
+    - kids
+    - checkin
+    - checkout
+    - email
+    - phno
+    - room
+  attraction_form:
+    required_slots:
+    - attraction
+  name_form:
+    required_slots:
+    - first_name
+    - last_name
+responses:
+  utter_start:
+  - text: Hey! This is HChat speaking. Welcome to the Hotel Marchigiano. ☀️
+  utter_stop:
+  - text: Good Bye by HChat! 😉
+  - text: Bye! 😉
+  utter_greet:
+  - text: Welcome from HChat! 😎
+  - text: Hey! What's up? ☀️
+  utter_cheer_up:
+  - image: https://i.imgur.com/nGF1K8f.jpg
+    text: 'Here is something to cheer you up:'
+  utter_did_that_help:
+  - text: Did that help you?
+  utter_happy:
+  - text: Great, carry on!
+  - text: Good!
+  - text: OK!
+  utter_goodbye:
+  - text: Bye Bye. 😉
+  - text: See you later. 😉
+  utter_iamabot:
+  - text: I am a bot, powered by Rasa, but made by Christian.
+  utter_default:
+    - text: Sorry, I didn't get that, can you rephrase?
+    - text: Pardon?
+    - text: I'm sorry, I didn't quite catch what you said. Can you say it again?
+  utter_ask_adults:
+  - text: Please, tell us the number of adults (above 12 years old) and of the kids (below 12 years old) that are staying at the hotel.
+  - text: How many adults (above 12 years old) are staying? And how many kids (below 12 years old) are staying?
+  utter_ask_checkin:
+  - text: 'Please, tell us your check-in and check-out date (accepted formats: DD/MM/YYYY, DD-MM-YYYY, YYYY/MM/DD, YYYY-MM-DD)'
+  - text: 'Please, provide us the date of your arrival and of your departure (accepted formats: DD/MM/YYYY, DD-MM-YYYY, YYYY/MM/DD, YYYY-MM-DD)'
+  utter_ask_checkout:
+  - text: When would you like to check-out?
+  utter_ask_kids:
+  - text: Please, tell us how many kids (below 12 years old) are staying at the hotel.
+  - text: How many kids (below 12 years old) are staying?
+  utter_ask_email: 
+  - text: Please, provide us your contacts (email and phone number).
+  utter_ask_first_name:
+  - text: What is your first name?
+  - text: Please, tell us your first name.
+  utter_ask_last_name:
+  - text: OK {first_name}, what is your last name?
+  utter_ask_phno:
+  - text: Can you tell us your phone number (with prefix)?
+  utter_ask_room:
+  - text: Which room would you like to book?
+    buttons:
+    - title: Deluxe Room
+      payload: '/inform_room{{"room":"Deluxe Room"}}'
+    - title: Junior Suite
+      payload: '/inform_room{{"room":"Junior Suite"}}'
+    - title: Club Suite
+      payload: '/inform_room{{"room":"Club Suite"}}'
+  utter_breakfasttime:
+  - text: Breakfast is served from 7 am to 10 am, every day.
+  utter_cancellationpolicy:
+  - text: If your travel plans change, you can cancel or modify your reservation in accordance with the hotel's cancellation policy as stated during the reservation process.
+  utter_check_in:
+  - text: The check-in time is after 3 PM. Let us know your arrival time in case you schedule an early check-in we'll do our best to make your room available. The hotel has a minimum age requirement of 21 years old. Please call the hotel directly prior to your arrival to make any necessary arrangements. Hotel direct phone numbers can be found on your confirmation email or on the Hotel Information page
+  utter_check_out: 
+  - text: Check-out time is 12.00 AM.
+  utter_childrenage:
+  - text: Yes, children up to the age of 2 stay for free (accompanied by an adult).
+  utter_clubsuite_details: 
+  - text: "An exclusive 500 sqft room that redefines luxury with two bedrooms, walk-in wardrobes, entertainment area, a kitchenette, private balcony and unparalleled views of the Conero Riviera. Smart IPTV. Bathrooms with walk-in shower and bathtub. Hairdryer, Coffee Machine, Refrigerator, Microwave Oven, Toaster Iron/ironing board. Complimentary Wi-Fi. Grand Club serving breakfast and evening refreshments. Complimentary bottled mineral water. \nPrice: 1000 €/night"
+  utter_deluxeroom_details:
+  - text: "These Deluxe Rooms let you relax as you admire a beautiful view of the Basilica and the Conero Riviera. Stay connected as you enjoy our free WiFi and watch movies with our 50-inch QLED TV and DVD player. Refresh yourself as you take a step into our rain shower. Bathrooms with walk-in shower and bathtub, Hairdryer, Coffee Machine, Refrigerator, Microwave Oven, Toaster Iron/ironing board. In-roomlaptop-sized electronic safe. Built-In Induction. Complimentary Wi-Fi. Access to the boardroom, and Grand Club serving breakfast and evening refreshments. Complimentary bottled mineral water. \nPrice: 500 €/night"
+  utter_juniorsuite_details: 
+  - text: "An exclusive 400 sqft room that redefines luxury with two bedrooms, walk-in wardrobes, entertainment area, a kitchenette, private balcony and unparalleled views of the Conero Riviera. Smart IPTV. Bathrooms with walk-in shower and bathtub. Hairdryer, Coffee Machine, Refrigerator, Microwave Oven, Toaster Iron/ironing board. In-room laptop-sized electronic safe. Complimentary Wi-Fi. Access to boardroom, and Grand Club serving breakfast and evening refreshments. Complimentary bottled mineral water. \nPrice: 100 €/night"
+  utter_contactnumber:
+  - text: The hotel can be contacted directly on +39 333 33 33 333.
+  utter_faq_prompt:
+  - text: OK. You can ask me anything! I.e. reception opening hours, cancellation policy, refund, breakfast time, breakfast menu, check-in/check-out, kids policy, pets, rooms, main attractions.
+  utter_breakfastmenu:
+  - text: Buffet breakfast, Continental breakfast, Italian breakfast and Full American breakfast (extra fee may apply).
+  utter_petpolicy: 
+  - text: Pets are not allowed in the hotel.
+  - text: You cannot bring your pets with you in the hotel.
+  - text: It is forbidden to bring dogs, cats, ferrets and other pets.
+  - text: No pets allowed.
+  utter_receptiontime: 
+  - text: Reception service is available 24/7.
+  utter_refundable: 
+  - text: Most hotel rooms are fully refundable, if you cancel before the hotel's cancellation deadline (2 weeks before arrival). "Club Suite" room is non-refundable. If you cancel a non-refundable accommodation booking, or cancel your booking after the accommodation's cancellation deadline, you are not eligible for a refund, regardless of the payment method used.
+  utter_reservationconfirm: 
+  - text: As soon as you have completed the booking process, you will receive an ID number as confirmation. We will also send you a confirmation email and voucher with all your booking information.
+  utter_roomcount: 
+  - text: A person can book only 1 room at a time.
+  utter_ask_attraction:
+  - text: Do you want to know something else about Riviera del Conero?
+  utter_ask_continue:
+  - text: Would you like to continue?
+  utter_submit_book_room_form:
+  - text: Processing your booking ...
+  utter_submit_name_form:
+  - text: Is your name ({first_name} {last_name}) correct?
+  - text: So, you are {first_name} {last_name}, aren't you?
+  - text: You're {first_name} {last_name}, right?
+  utter_slots_name_form:
+  - text: All set! {first_name} {last_name}, ask me anything about the main attractions, the rooms or the FAQs! 😎
+actions:
+- utter_goodbye
+- utter_greet
+- utter_default
+- action_nearest_attractions
+- action_check_rooms
+- utter_deluxeroom_details
+- utter_juniorsuite_details
+- utter_clubsuite_details
+- utter_breakfastmenu
+- utter_cancellationpolicy
+- utter_check_in
+- utter_check_out
+- utter_childrenage
+- utter_roomcount
+- utter_breakfasttime
+- utter_refundable
+- utter_receptiontime
+- utter_petpolicy
+- utter_reservationconfirm
+- utter_contactnumber
+- utter_faq_prompt
+- utter_ask_continue
+- utter_ask_attraction
+- utter_ask_first_name
+- utter_ask_last_name
+- utter_ask_adults
+- utter_ask_kids
+- utter_ask_checkin
+- utter_ask_checkout
+- utter_ask_email
+- utter_ask_phno
+- utter_ask_room
+- utter_submit_name_form
+- utter_submit_book_room_form
+- action_book_room_details
+- action_reset
+- validate_book_room_form
+- validate_attraction_form
+- validate_name_form

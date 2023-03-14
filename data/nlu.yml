@@ -1,0 +1,528 @@
+version: "3.1"
+nlu:
+- intent: greet
+  examples: |
+    - hey
+    - hello
+    - hi
+    - hello there
+    - good morning
+    - good evening
+    - moin
+    - hey there
+    - let's go
+    - hey dude
+    - goodmorning
+    - goodevening
+    - good afternoon
+    - good morrow
+    - yo
+    - hello world
+    - hi there
+    - hey you
+- intent: goodbye
+  examples: |
+    - cu
+    - good by
+    - cee you later
+    - good night
+    - bye
+    - goodbye
+    - have a nice day
+    - see you around
+    - bye bye
+    - see you later
+    - thanks, goodbye
+    - good night
+- intent: affirm
+  examples: |
+    - yes
+    - y
+    - indeed
+    - of course
+    - that sounds good
+    - correct
+    - All right!
+    - /affirm
+- intent: deny
+  examples: |
+    - no
+    - n
+    - never
+    - I don't think so
+    - don't like that
+    - no way
+    - not really
+    - NO!
+    - /no
+- intent: mood_great
+  examples: |
+    - perfect
+    - great
+    - amazing
+    - feeling like a king
+    - wonderful
+    - I am feeling very good
+    - I am going to save the world
+    - super stoked
+    - extremely good
+    - so so perfect
+    - so good
+    - so perfect
+- intent: mood_unhappy
+  examples: |
+    - my day was horrible
+    - I am sad
+    - I don't feel very well
+    - I am disappointed
+    - super sad
+    - I'm so sad
+    - sad
+    - very sad
+    - unhappy
+    - not good
+    - not very good
+    - extremly sad
+    - so saad
+    - so sad
+- intent: stop
+  examples: |
+    - stop
+    - quit
+    - please stop
+    - i want to stop
+    - close
+    - /stop
+- intent: start
+  examples: |
+    - start
+    - open
+    - begin
+    - init
+    - /start
+- intent: bot_challenge
+  examples: |
+    - are you a bot?
+    - are you a human?
+    - am I talking to a bot?
+    - am I talking to a human?
+- intent: nearest_attraction
+  examples: |
+    - nearest attraction
+    - tell me about the nearest attraction
+    - nearest attractions
+    - I'm interested in the nearest attractions
+    - i want to know about attractions
+- intent: details_attraction
+  examples: |
+    - [Loreto, Marche](attraction)
+    - [Recanati](attraction)
+    - [Sirolo](attraction)
+    - [Porto Recanati](attraction)
+    - [Castelfidardo](attraction)
+    - [Ancona](attraction)
+    - tell me about [Loreto](attraction)
+    - what about [Porto Recanati](attraction)?
+    - what is [Castelfidardo](attraction)?
+    - what about [Ancona](attraction)
+    - i want to know something about [Sirolo](attraction)
+    - i would like some info about [Recanati](attraction)
+    - can you tell me something more about [Loreto](attraction)?
+    - i want more information of [Porto Recanati](attraction)
+    - tell me about [loreto](attraction)
+    - tell me something else on [ancona](attraction)
+    - i want to ask something about [sirolo](attraction)
+    - say something about [porto recanati](attraction)
+    - what can you say about [recanati](attraction)
+    - so ... about [castelfidardo](attraction)
+    - i wanna know something else about [Ancona](attraction)
+- intent: check_rooms
+  examples: |
+    - chec rooms
+    - can i see the rooms?
+    - can you provide me a general view about the rooms?
+    - i would like to know something about the rooms
+    - Do you have any rooms?
+    - are there available rooms?
+    - i want to check your rooms
+    - i want to have a general view on your rooms
+    - i'd like you to introduce the hotel
+    - i'd like to check a room
+- intent: deluxe_room_details
+  examples: |
+    - deluxe_room_details
+    - Deluxe Room details
+    - I would like more details about deluxe room
+    - i'd like some info about deluxe rooms
+    - can you provide some information on deluxe?
+    - may i have info about deluxe rooms?
+    - what about deluxe rooms?
+    - Can you gimme info on deluxe?
+    - what is deluxe?
+    - i want to know more about the deluxe room
+- intent: junior_suite_details
+  examples: |
+    - junior_suite_details
+    - Junior Suite details
+    - I would like more details about junior suite
+    - i'd like some info about junior suite
+    - can you provide some information on junior?
+    - may i have info about junior suite?
+    - what about junior suite?
+    - Can you gimme info on junior?
+    - what is a junior suite?
+    - i want to know more about the junior suite
+- intent: club_suite_details
+  examples: |
+    - club_suite_details
+    - Club Suite details
+    - I would like more details about club suite
+    - i'd like some info about the club suite
+    - can you provide some information on club suite?
+    - may i have info about club suite?
+    - what about club suite?
+    - Can you gimme info on club suite?
+    - what is a club suite?
+    - i want to know more about the club suite
+- intent: faq_breakfast_menu
+  examples: |
+    - breakfast menu
+    - Breakfast Menu
+    - can I see your breakfast menu?
+    - I would like to check your breakfast menu
+    - please, show me the breakfast menu
+    - show me your breakfast menu
+    - may i see your breakfast menu?
+    - Do you have any breakfast menu?
+    - is there a breakfast menu?
+- intent: faq_breakfast_time
+  examples: |
+    - breakfast time
+    - Breakfast Time
+    - can you tell me breakfast time?
+    - can you specify the time for the breakfast?
+    - please, at what time will you serve the breakfast?
+    - what is the time for breakfast?
+    - may i know what is time for breakfast?
+- intent: faq_cancellationpolicy
+  examples: |
+    - cancellation policy
+    - Cancel Policy
+    - what is the cancellation policy?
+    - what should I do for cancelling the reservation?
+    - what is the cancellation process
+    - cancellation policy?
+    - may i know what is the procedure to cancel a reservation?
+    - please, can you tell me what i need to do for cancelling te reservation?
+    - what is the process to cancel a booking?
+- intent: faq_checkin
+  examples: |
+    - tell me about the checkin
+    - What is the check-in time of the hotel?
+    - What is the standard check-in?
+    - At what time can I check-in?
+    - please, say something about the check-in
+    - what is the checkin time?
+    - what is the check-in time?
+    - check-in time?
+    - is there any checkin time?
+    - what is the minimum age required to check in?
+    - age for check in
+    - at what age do you allow me to check in
+    - minimum age required to check in?
+- intent: faq_checkout
+  examples: |
+    - what is the check-out time?
+    - what is the checkout time
+    - What is the check-out time of the hotel?
+    - checkout time?
+    - check-out time
+    - can you tell me more about checkout?
+    - please, can you provide me the ckeck-out time?
+- intent: faq_children
+  examples: |
+    - tell me about children policy
+    - what is the maximum age for the children to stay for free?
+    - is it possible for my children to stay for free?
+    - can children stay for free
+    - Do kids stay for free
+    - Do children stay for free?
+    - kids policy?
+    - are kids allowed?
+    - I have a baby with me, can he stay?
+    - a kid with a parent is allowed to stay at the hotel
+- intent: faq_petpolicy
+  examples: |
+    - Pet Policy
+    - Can I bring my pet?
+    - What about pets?
+    - is it possible to bring my pets with me
+    - Can I bring my pets with me?
+    - is there a charge for bringing my pets
+    - Are pets allowed to stay at the hotel?
+    - can i bring a cat?
+    - is ferrets forbidden in the hotel?
+    - is it forbidden to bring animals?
+    - it is forbidden to have ferrets
+    - it is forbidden to bring cats, dogs, pets
+    - can my dog stay with me?
+    - cat can stay at the hotel
+    - dogs are allowed to stay
+- intent: faq_bookcount
+  examples: |
+    - is there a limit for the number of rooms a person can book
+    - number of rooms a person can reserve
+    - no. of rooms a person can book
+    - how may rooms can i reserve?
+    - nmber of rooms I can reserve
+    - can you tell the max number of rooms I can book?
+    - please, maximum no. of rooms I can reserve
+- intent: faq_refund
+  examples: |
+    - is it possible to get a refund for my room?
+    - Refund Policy
+    - what is the refund policy
+    - is refund available
+    - Is my room refundable?
+    - is it possible to get a refund
+    - may I ask for any refund for a room?
+    - how i can ask for a refund?
+- intent: faq_reception
+  examples: |
+    - is reception open now?
+    - is reception open all the time
+    - Is Reception open 24 hours?
+    - Reception Time
+    - when is reception available
+    - is reception always open?
+    - may I ask for any refund for a room?
+- intent: faq_reservconfirm
+  examples: |
+    - How can I confirm that my reservation has been made?
+    - can I know is my reservation confirmed?
+    - how can I confirm that the reservation is complete?
+    - how to know that the reservation is confirmed?
+    - How do I know if my reservation is confirmed?
+    - tell me how I know if my reservation was confirmed
+    - please, I want to know if my booking is complete
+- intent: faq_contact
+  examples: |
+    - What is the customer support number?
+    - What is your phone number?
+    - can you give me the hotel contact number
+    - contact number
+    - is there a contact number for the hotel?
+    - What is the contact number of the reception?
+    - please, I want to know the number of the facility
+- intent: faq
+  examples: |
+    - faq
+    - FAQ
+    - What can you do?
+    - what are you able to do?
+    - i would like to check the faqs
+    - i want you to show me the FAQ
+- intent: book_rooms
+  examples: |
+    - book_rooms
+    - Book Rooms
+    - I would like to book a room
+    - i'd like to make a reservation
+    - may I book a room?
+    - may i make a reservation for a room?
+    - i wanna book a room
+    - I want to book a Deluxe
+    - I wanna make a reservation for a junior suite
+    - i want to book a club suite
+    - i wanna book the deluxe room
+- intent: inform_date
+  examples: |
+    - [1/3/2023]{"entity": "date", "role": "checkin"} - [02/03/2023]{"entity": "date", "role": "checkout"}
+    - [3/4/2023]{"entity": "date", "role": "checkin"} - [8/4/2023]{"entity": "date", "role": "checkout"}
+    - [17/10/2024]{"entity": "date", "role": "checkin"} - [21/11/2023]{"entity": "date", "role": "checkout"}
+    - [30/7/2023]{"entity": "date", "role": "checkin"} - [31/8/2023]{"entity": "date", "role": "checkout"}
+    - [3/5/2023]{"entity": "date", "role": "checkin"} - [8/5/2023]{"entity": "date", "role": "checkout"}
+    - [1/11/2023]{"entity": "date", "role": "checkin"} - [4/2/2024]{"entity": "date", "role": "checkout"}
+    - 'we will arrive on [02/11/2023]]{"entity": "date", "role": "checkin"} and we will leave on [04/11/2023]]{"entity": "date", "role": "checkout"}'
+    - 'i'm coming on [5/1/2025]]{"entity": "date", "role": "checkin"}, i'm going to leave on [6/2/2025]{"entity": "date", "role": "checkout"}'
+    - 'I'll be there on [7/4/2023]]{"entity": "date", "role": "checkin"}, i'll leave on [08/4/2023]]{"entity": "date", "role": "checkout"}'
+    - 'check-in will be at [9/05/2023]]{"entity": "date", "role": "checkin"}, check-out at [10/06/2023]]{"entity": "date", "role": "checkout"}'
+    - 'Check-in: [11/07/2025]{"entity": "date", "role": "checkin"}, Check-out: [12/07/2025]{"entity": "date", "role": "checkout"}'
+    - 'i ll arrive on [13/08/2025]{"entity": "date", "role": "checkin"}, i ll go back on [14/09/2025]{"entity": "date", "role": "checkout"}'
+    - 'ill arrive on [15/04/2026]{"entity": "date", "role": "checkin"}, ill leave on [16/4/2026]{"entity": "date", "role": "checkout"}'
+    - [17/07/2023]{"entity": "date", "role": "checkin"}, [18/07/2023]{"entity": "date", "role": "checkout"}
+    - [19/9/2026]{"entity": "date", "role": "checkin"} [20/9/2026]{"entity": "date", "role": "checkout"}
+    - 'i am coming on [21/12/2023]{"entity": "date", "role": "checkin"}, i am leaving on [22/1/2024]{"entity": "date", "role": "checkout"}'
+    - 'Check-in [23/10/2026]{"entity": "date", "role": "checkin"}, check-out [24/11/2027]{"entity": "date", "role": "checkout"}'
+    - 'ill come on [25/12/2030]{"entity": "date", "role": "checkin"}, ill leave on [26/12/2030]{"entity": "date", "role": "checkout"}'
+    - 'i m gonna arrive on [15/05/2030]{"entity": "date", "role": "checkin"}, i'm going to leave on [16/06/2030]{"entity": "date", "role": "checkout"}'
+    - 'I'll be there on [17/06/2030]{"entity": "date", "role": "checkin"}, i'll leave on [18/06/2030]{"entity": "date", "role": "checkout"}'
+    - 'check-in will be at [21/9/2024]{"entity": "date", "role": "checkin"}, check-out at [22/9/2024]{"entity": "date", "role": "checkout"}'
+    - 'Check-in: [23/10/2024]{"entity": "date", "role": "checkin"}, Check-out: [24/10/2024]{"entity": "date", "role": "checkout"}'
+    - 'i ll arrive on [1/1/2024]{"entity": "date", "role": "checkin"}, i ll go back on [4/1/2024]{"entity": "date", "role": "checkout"}'
+    - 'ill arrive on [4/10/2024]{"entity": "date", "role": "checkin"}, ill leave on [15/1/2025]{"entity": "date", "role": "checkout"}'
+    - [1/3/2023]{"entity": "date", "role": "checkin"}, [2/5/2023]{"entity": "date", "role": "checkout"}
+    - [26/06/2024]{"entity": "date", "role": "checkin"} [5/7/2024]{"entity": "date", "role": "checkout"}
+    - [28/2/2024]{"entity": "date", "role": "checkin"} [4/3/2024]{"entity": "date", "role": "checkout"}
+    - [2/1/2024]{"entity": "date", "role": "checkin"} [5/1/2024]{"entity": "date", "role": "checkout"}
+    - [12/5/2024]{"entity": "date", "role": "checkin"} [19/5/2024]{"entity": "date", "role": "checkout"}
+    - [22/10/2024]{"entity": "date", "role": "checkin"} [29/10/2024]{"entity": "date", "role": "checkout"}
+    - 'i am coming on [23/9/2023]{"entity": "date", "role": "checkin"}, i am leaving on [2/2/2024]{"entity": "date", "role": "checkout"}'
+    - 'Check-in [23/01/2024]{"entity": "date", "role": "checkin"}, check-out [04/02/2024]{"entity": "date", "role": "checkout"}'
+    - 'ill come on [5/1/2025]{"entity": "date", "role": "checkin"}, ill leave on [6/2/2024]{"entity": "date", "role": "checkout"}'
+    - 'Check-in: [23-10-2024]{"entity": "date", "role": "checkin"}, Check-out: [24-10-2024]{"entity": "date", "role": "checkout"}'
+    - 'i ll arrive on [5-1-2024]{"entity": "date", "role": "checkin"}, i ll go back on [04-01-2024]{"entity": "date", "role": "checkout"}'
+    - 'ill arrive on [4-12-2024]{"entity": "date", "role": "checkin"}, ill leave on [19-01-2025]{"entity": "date", "role": "checkout"}'
+    - [1-3-2023]{"entity": "date", "role": "checkin"}, [2-5-2023]{"entity": "date", "role": "checkout"}
+    - [21-06-2024]{"entity": "date", "role": "checkin"} - [5-7-2024]{"entity": "date", "role": "checkout"}
+    - [22-08-2024]{"entity": "date", "role": "checkin"} - [4-3-2024]{"entity": "date", "role": "checkout"}
+    - [02-10-2024]{"entity": "date", "role": "checkin"} - [05-12-2024]{"entity": "date", "role": "checkout"}
+    - [12-05-2024]{"entity": "date", "role": "checkin"} and [18-05-2024]{"entity": "date", "role": "checkout"}
+    - [22-1-2024]{"entity": "date", "role": "checkin"} - [28-1-2024]{"entity": "date", "role": "checkout"}
+    - 'i am coming on [23-9-2023]{"entity": "date", "role": "checkin"}, i am leaving on [2-2-2024]{"entity": "date", "role": "checkout"}'
+    - 'Check-in [23-01-2024]{"entity": "date", "role": "checkin"}, check-out [04-02-2024]{"entity": "date", "role": "checkout"}'
+    - 'ill come on [5-1-2025]{"entity": "date", "role": "checkin"}, ill leave on [6-2-2024]{"entity": "date", "role": "checkout"}'
+    - [2023-02-11]{"entity": "date", "role": "checkin"}, [2023-3-23]{"entity": "date", "role": "checkout"}
+    - [2024-2-04]{"entity": "date", "role": "checkin"} - [2024-5-7]{"entity": "date", "role": "checkout"}
+    - [2024-2-08]{"entity": "date", "role": "checkin"} - [2024-4-3]{"entity": "date", "role": "checkout"}
+    - [2024-02-10]{"entity": "date", "role": "checkin"}  [2024-05-12]{"entity": "date", "role": "checkout"}
+    - [2024-12-05]{"entity": "date", "role": "checkin"} / [2024-12-15]{"entity": "date", "role": "checkout"}
+    - [2024-02-01]{"entity": "date", "role": "checkin"} / [2024-02-02]{"entity": "date", "role": "checkout"}
+    - 'ill come on [5/1/2025]{"entity": "date", "role": "checkin"}, ill leave on [6/2/2024]{"entity": "date", "role": "checkout"}'
+    - [2023/02/11]{"entity": "date", "role": "checkin"}, [2023/3/23]{"entity": "date", "role": "checkout"}
+    - [2024/2/04]{"entity": "date", "role": "checkin"} and [2024/5/7]{"entity": "date", "role": "checkout"}
+    - [2024/2/08]{"entity": "date", "role": "checkin"} / [2024/4/3]{"entity": "date", "role": "checkout"}
+    - [2024/02/10]{"entity": "date", "role": "checkin"} / [2024/05/12]{"entity": "date", "role": "checkout"}
+    - [2025/12/05]{"entity": "date", "role": "checkin"} / [2025/12/15]{"entity": "date", "role": "checkout"}
+    - [2024/06/01]{"entity": "date", "role": "checkin"} / [2024/028/02]{"entity": "date", "role": "checkout"}
+    - [2024-2-1]{"entity": "date", "role": "checkin"}  [2024-5-22]{"entity": "date", "role": "checkout"}
+    - [5-10-2023]{"entity": "date", "role": "checkin"} and [10-10-2023]{"entity": "date", "role": "checkout"}
+- intent: inform_people
+  examples: |
+    - 'We are [2]{"entity": "people", "role": "adults"} adults and [0]{"entity": "people", "role": "kids"} children'
+    - 'we will be [4]{"entity": "people", "role": "adults"} adults and with us there is [1]{"entity": "people", "role": "kids"} kid'
+    - 'we book for [8]{"entity": "people", "role": "adults"} adults, there will be [4]{"entity": "people", "role": "kids"} kids'
+    - 'we will be [3]{"entity": "people", "role": "adults"} adults and [5]{"entity": "people", "role": "kids"} children'
+    - [1]{"entity": "people", "role": "adults"} adult and [no]{"entity": "people", "role": "kids"} kids
+    - [6]{"entity": "people", "role": "adults"} [1]{"entity": "people", "role": "kids"}
+    - [5]{"entity": "people", "role": "adults"} adults, also we book for [5]{"entity": "people", "role": "kids"} children
+    - [1]{"entity": "people", "role": "adults"} - [0]{"entity": "people", "role": "kids"}
+    - [8]{"entity": "people", "role": "adults"} - [2]{"entity": "people", "role": "kids"}
+    - [7]{"entity": "people", "role": "adults"} - [3]{"entity": "people", "role": "kids"}
+    - [2]{"entity": "people", "role": "adults"} [4]{"entity": "people", "role": "kids"}
+    - [6]{"entity": "people", "role": "adults"} adults, also we book for [2]{"entity": "people", "role": "kids"} children
+    - [1]{"entity": "people", "role": "adults"} [0]{"entity": "people", "role": "kids"}
+    - [8]{"entity": "people", "role": "adults"} - [0]{"entity": "people", "role": "kids"}
+    - [3]{"entity": "people", "role": "adults"} [4]{"entity": "people", "role": "kids"}
+    - [1]{"entity": "people", "role": "adults"} [2]{"entity": "people", "role": "kids"}
+    - [2]{"entity": "people", "role": "adults"} adults and [0]{"entity": "people", "role": "kids"} kids
+    - 'we will be [2]{"entity": "people", "role": "adults"} adults and [5]{"entity": "people", "role": "kids"} kids'
+    - 'we are going to be [3]{"entity": "people", "role": "adults"} adults and [6]{"entity": "people", "role": "kids"} kids'
+    - 'we re gonna be [2]{"entity": "people", "role": "adults"} adults and [no]{"entity": "people", "role": "kids"} kids'
+    - [4]{"entity": "people", "role": "adults"} adults, [No]{"entity": "people", "role": "kids"} kids
+    - 'we will be [6]{"entity": "people", "role": "adults"} and [0]{"entity": "people", "role": "kids"} kids'
+    - [4]{"entity": "people", "role": "adults"} adults and [1]{"entity": "people", "role": "kids"} kid
+    - [2]{"entity": "people", "role": "adults"} adults and [2]{"entity": "people", "role": "kids"} kids
+    - [3]{"entity": "people", "role": "adults"} adults [4]{"entity": "people", "role": "kids"} children
+- intent: inform_contacts
+  examples: |
+    - My email is [example@example.com]{"entity": "contacts", "role": "email"} and my phone number is [+393331234567]{"entity": "contacts", "role": "phno"}
+    - [random@example.com]{"entity": "contacts", "role": "email"}, [15633467]{"entity": "contacts", "role": "phno"}
+    - Here is my mail [anything@something.com]{"entity": "contacts", "role": "email"} and here my number [+4494633467]{"entity": "contacts", "role": "phno"}
+    - Email is [some.thing10@live.com]{"entity": "contacts", "role": "email"}, number is [00423467]{"entity": "contacts", "role": "phno"}
+    - [0044 22385395]{"entity": "contacts", "role": "phno"} is my number and [smtng.else@hotmail.it]{"entity": "contacts", "role": "email"} is my email
+    - [+39 333 345 44 22]{"entity": "contacts", "role": "phno"}, [name_surname@gmail.com]{"entity": "contacts", "role": "email"}
+    - number: [0039 333 345 44 22]{"entity": "contacts", "role": "phno"} email: [name.surname@domain.com]{"entity": "contacts", "role": "email"}
+    - Email: [name.surname@domain.com]{"entity": "contacts", "role": "email"} Number: [0039 333 345 44 22]{"entity": "contacts", "role": "phno"}
+    - Email: [name.surname@libero.com]{"entity": "contacts", "role": "email"} Phone: [0039 33308323]{"entity": "contacts", "role": "phno"}
+    - email id is [Mia_Gainey@gmail.com]{"entity": "contacts", "role": "email"} , my contact number is [8075430831]{"entity": "contacts", "role": "phno"}
+    - my email s [S_Calderon@Cofield.com]{"entity": "contacts", "role": "email"} my number is [7703486422]{"entity": "contacts", "role": "phno"}
+    - my email's [Virginia@Brown.com]{"entity": "contacts", "role": "email"} [8983617830]{"entity": "contacts", "role": "phno"}
+    - my emayl is [V_Comley@Nelson.com]{"entity": "contacts", "role": "email"}, [9957314135]{"entity": "contacts", "role": "phno"}
+    - [flowersblooms45@reddit.com]{"entity": "contacts", "role": "email"}. mobile number is [9296452144]{"entity": "contacts", "role": "phno"}
+    - Mail id is [Parker123@gmail.com]{"entity": "contacts", "role": "email"}. My cell is [8786858483]{"entity": "contacts", "role": "phno"}
+- intent: inform_room
+  examples: |
+    - I would like [deluxe rooms](room)
+    - [deluxe room](room)
+    - i want to reserve [club suite](room)
+    - i like the [junior suite](room)
+    - a [Club Suite](room)
+    - [Junior Suite](room)
+    - the [Deluxe Room](room) is suitable for me
+    - a [club Suite](room) is perfect
+    - i'm going for a [Club suite](room)
+    - i'll go for a [Junior suite](room)
+    - for me a [Deluxe room](room)
+- intent: summary_booking
+  examples: |
+    - I want to check the booking details
+    - i wanna have the summary of my reservation
+    - i would like to have the summary of my past booking
+    - i wanna know what are the booking's details
+    - please, give me the report of my reservation
+    - get me the main details of my booking
+    - gimme the reservation's details
+# - intent: inform_first_name
+#   examples: |
+#     - [Patty](first_name)
+#     - My first name is [Marco](first_name)
+#     - I am [Christian](first_name)
+#     - i am [Alessandro](first_name)
+#     - [Gerry](first_name)
+#     - i m [Paolo](first_name)
+#     - this is [Luca](first_name)
+#     - here you are: [Carlo](first_name)
+#     - i'm [christian](first_name)
+#     - My name is [alessandra](first_name)
+#     - hey , this is [Charlie](first_name)
+#     - hello, [Shyam(first_name)] here.
+#     - hi, I'm [Ram](first_name)
+#     - my name is [Lucas](first_name)
+#     - good evening , I m [Pedro](first_name)
+#     - hey there, I am [Todd](first_name)
+#     - my name is [John](first_name)
+#     - I am [nick](first_name)
+#     - Hey there , [Brad](first_name)
+#     - [james](first_name)
+#     - [Anand](first_name)
+#     - [Abhishek](first_name)
+#     - [Vivek](first_name)
+#     - [Marc](first_name)
+#     - [Joe](first_name)
+#     - [Praveen](first_name)
+#     - [Kevin](first_name)
+#     - [Marta](first_name)
+#     - [Arun](first_name)
+#     - [Rohith](first_name)
+#     - [Adithya](first_name)
+#     - [Jerry](first_name)
+#     - [Tom](first_name)
+#     - my name's [Peter](first_name)
+# - intent: inform_last_name
+#   examples: |
+#     - [Smith](last_name)
+#     - My last name is [Federico](last_name)
+#     - my last name [Ascani](last_name)
+#     - i am [Manzoni](last_name)
+#     - [Scotti](last_name)
+#     - i m [Bonolis](last_name)
+#     - this is [Laurenti](last_name)
+#     - here you are: [Conti](last_name)
+#     - i'm [ascani](last_name)
+#     - My surname is [Buonaiuto](last_name)
+#     - [reyd](last_name)
+#     - [Al Pacino](last_name)
+#     - [Otavia](last_name)
+#     - [Pico](last_name)
+#     - [Talevi](last_name)
+#     - [Leopardi](last_name)
+#     - [Verga](last_name)
+#     - [Pirandello](last_name)
+#     - [Rossi](last_name)
+#     - [Bianchi](last_name)
+#     - [Esposito](last_name)
+#     - [Mercanti](last_name)
+#     - [Medici](last_name)
+#     - [Holland](last_name)
+#     - my surname's [Bond](last_name)

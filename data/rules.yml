@@ -1,0 +1,100 @@
+version: "3.1"
+
+rules:
+
+- rule: Start the conversation asking user name
+  steps:
+  - intent: start
+  - action: utter_start
+  - action: name_form
+  - active_loop: name_form
+
+- rule: End the conversation
+  steps:
+  - intent: stop
+  - action: utter_stop
+  - action: action_reset
+
+- rule: Say goodbye anytime the user says goodbye
+  steps:
+  - intent: goodbye
+  - action: utter_goodbye
+  - action: action_reset
+
+- rule: Say 'I am a bot' anytime the user challenges
+  steps:
+  - intent: bot_challenge
+  - action: utter_iamabot
+
+- rule: fallback
+  steps:
+  - intent: nlu_fallback
+  - action: utter_default
+      
+- rule: Activate Attraction form
+  steps:
+  - intent: details_attraction
+  - action: attraction_form
+  - active_loop: attraction_form
+
+- rule: Attraction form
+  condition:
+  # Condition that form is active.
+  - active_loop: attraction_form
+  steps:
+  # Form is deactivated
+  - action: attraction_form
+  - slot_was_set:
+    - requested_slot: null
+  - active_loop: null
+
+- rule: Example of an interruption in Attraction form
+  condition:
+  # Condition that form is active.
+  - active_loop: attraction_form
+  steps:
+  # This unhappy path handles the case of an intent `faq`.
+  - intent: faq
+  - action: utter_faq_prompt
+  # Return to form after handling the `faq` intent
+  - action: attraction_form
+  - active_loop: attraction_form
+
+- rule: Activate form asking user name
+  steps:
+  - intent: greet
+  - action: utter_greet
+  - action: name_form
+  - active_loop: name_form
+
+- rule: Activate Book room form
+  steps:
+  - intent: book_rooms
+  - action: book_room_form
+  - active_loop: book_room_form
+
+- rule: Submit book form
+  condition:
+  - active_loop: book_room_form
+  steps:
+  - action: book_room_form
+  - active_loop: null
+  - action: utter_submit_book_room_form
+  - action: action_book_room_details
+
+- rule: Interruption in Book room Form
+  condition:
+  # Condition that form is active.
+  - active_loop: book_room_form
+  steps:
+  # This unhappy path handles the case of an intent `bot_challenge`.
+  - intent: bot_challenge
+  - action: utter_iamabot
+  # Return to form after handling the `bot_challenge` intent
+  - action: book_room_form
+  - active_loop: book_room_form
+
+- rule: Asking for the reservation's details
+  steps:
+  - intent: summary_booking
+  - action: action_book_room_details
