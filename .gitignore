@@ -2,3 +2,6 @@
 /models
 /ngrok.exe
 /tests
+/credentials.yml
+/room.sql
+actions/__pycache__

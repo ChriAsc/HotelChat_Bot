@@ -189,16 +189,15 @@ responses:
   - text: OK {first_name}, what is your last name?
   utter_ask_phno:
   - text: Can you tell us your phone number (with prefix)?
-  utter_ask_room:
-  - text: Which room would you like to book?
-  #DA RIVEDERE PER LA GESTIONE DINAMICA DEI BOTTONI
-    buttons:
-    - title: Deluxe
-      payload: '/inform_room{{"room":"Deluxe"}}'
-    - title: Standard
-      payload: '/inform_room{{"room":"Standard"}}'
-    - title: Presidential
-      payload: '/inform_room{{"room":"Presidential"}}'
+  # utter_ask_room:
+  # - text: Which room would you like to book?
+  #   buttons:
+  #   - title: Deluxe
+  #     payload: '/inform_room{{"room":"Deluxe"}}'
+  #   - title: Standard
+  #     payload: '/inform_room{{"room":"Standard"}}'
+  #   - title: Presidential
+  #     payload: '/inform_room{{"room":"Presidential"}}'
   utter_breakfasttime:
   - text: Breakfast is served from 7 am to 10 am, every day.
   utter_cancellationpolicy:
@@ -245,7 +244,7 @@ responses:
   - text: So, you are {first_name} {last_name}, aren't you?
   - text: You're {first_name} {last_name}, right?
   utter_slots_name_form:
-  - text: All set! {first_name} {last_name}, ask me anything about the main attractions, the rooms or the FAQs! 😎
+  - text: All set, {first_name} {last_name}! Ask me anything about the main attractions, the rooms or the FAQs! 😎
 actions:
 - utter_goodbye
 - utter_greet
@@ -278,11 +277,12 @@ actions:
 - utter_ask_checkout
 - utter_ask_email
 - utter_ask_phno
-- utter_ask_room
+# - utter_ask_room
 - utter_submit_name_form
 - utter_submit_book_room_form
 - action_book_room_details
 - action_reset
+- action_ask_room
 - validate_book_room_form
 - validate_attraction_form
 - validate_name_form

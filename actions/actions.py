@@ -3,7 +3,7 @@ from rasa_sdk.executor import CollectingDispatcher
 from rasa_sdk import Tracker, FormValidationAction, Action
 from rasa_sdk.types import DomainDict
 from rasa.core.actions.forms import FormAction
-from rasa_sdk.events import  AllSlotsReset
+from rasa_sdk.events import  AllSlotsReset, EventType
 
 import mysql.connector
 from mysql.connector import Error
@@ -17,24 +17,27 @@ import wikipedia
 # for validating an Email
 regex = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,7}\b'
 
-def db_connect(self,dispatcher,tracker,domain):
+def db_connect():
         try:
             connection = mysql.connector.connect(host='localhost',
                                                 database='db_rasa_cb',
                                                 user='root',
                                                 port=3306)
             if connection.is_connected():
-                db_Info = connection.get_server_info()
+                # db_Info = connection.get_server_info()
+                print("DB is connected!")
                 cursor = connection.cursor()
                 cursor.execute("select database();")
                 record = cursor.fetchone()
-                return cursor
+                query = ("SELECT * FROM room")
+                cursor.execute(query)
+                return connection,cursor
 
         except Error as e:
-            dispatcher.utter_message(text="Some problem occurred while connecting to the DataBase")
+            print("Some problem occurred while connecting to the DataBase")
 
 #Varuabile globale necessaria alla connessione al db
-cursor = db_connect()
+connection,cursor = db_connect()
 
 
 # Define a function for validating an Email
@@ -178,6 +181,53 @@ class ActionBookRoomForm(FormAction):
             "phno": self.from_entity(entity="contacts", role="phno", intent="inform_contacts"),
             "room": self.from_entity(entity="room", intent="inform_room"),
         }
+    
+class AskForSlotAction(Action):
+    def name(self) -> Text:
+        return "action_ask_room"
+
+    def run(
+        self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict
+    ) -> List[EventType]:
+    
+        rooms_available = []
+
+        new_check_in=str(tracker.get_slot("checkin"))
+        new_check_out=str(tracker.get_slot("checkout"))
+
+        for(room_id,room_type,reservations) in cursor:
+
+            json_res = json.loads(reservations)
+            flag = True
+            for res in json_res["res"]:
+                # flag used to check whether the room is available
+                date_string = res["check_in"]
+                check_in_date = datetime.strptime(date_string, "%d/%m/%Y").date()
+                date_string = res["check_out"]
+                check_out_date = datetime.strptime(date_string, "%d/%m/%Y").date()
+                
+                check_in_new_date = datetime.strptime(new_check_in, "%d/%m/%Y").date()
+                check_out_new_date = datetime.strptime(new_check_out, "%d/%m/%Y").date()
+
+                if((check_in_new_date>check_in_date and check_in_new_date<check_out_date)
+                or(check_out_new_date<check_out_date and check_out_new_date>check_in_date)):
+                    flag = False
+
+            # checking if this room is free during that time
+            if flag:
+                button = {"title": room_type, "payload": '/inform_room{"room":"'+room_type+'"}'}
+                # room type only is shown to the user
+                if (button not in rooms_available):
+                    rooms_available.append(button)
+
+                # room_name = str(room_type)+" Nr. "+str(room_id)
+
+        button_list = rooms_available
+        print(button_list)
+        # Fetch the data and store in the format used by buttons.
+        dispatcher.utter_message(text="Which room would you like to book?", buttons=button_list)
+        
+        return []
 
 class ValidateNameForm(FormValidationAction):
     def name(self):
@@ -364,11 +414,15 @@ class ValidateBookRoomForm(FormValidationAction):
         domain: DomainDict,
     ) -> Dict[Any, Any]:
         """Validate `room` value."""
-        room = slot_value.lower()
-        if room not in ["deluxe","standard","presidential"]:
+        room = slot_value
+        if room not in ["Deluxe","Standard","Presidential"]:
             dispatcher.utter_message(text=f"This room is not correct! Retry.")
             return {"room": None}
         else:
+            # QUA BISOGNA AGGIUNGERE IL COLLEGAMENTO AL DB E L'UPDATE
+            # FORSE E' POSSIBILE PASSARE SIA IL TIPO DELLA STANZA CHE IL NUMERO NEL PAYLOAD
+            # POI IN QUESTA FASE SI DIVIDONO LE DUE INFORMAZIONI, UNA VERRA' MESSA NELLO SLOT
+            # L'ALTRO INVECE SARA' NECESSARIO PER L'INSERIMENTO
             return {"room": room}
     
     def submit(
