@@ -5,6 +5,10 @@ from rasa_sdk.types import DomainDict
 from rasa.core.actions.forms import FormAction
 from rasa_sdk.events import  AllSlotsReset
 
+import mysql.connector
+from mysql.connector import Error
+import json
+
 from datetime import datetime
 import re
 import wikipedia
@@ -12,6 +16,26 @@ import wikipedia
 # Make a regular expression
 # for validating an Email
 regex = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,7}\b'
+
+def db_connect(self,dispatcher,tracker,domain):
+        try:
+            connection = mysql.connector.connect(host='localhost',
+                                                database='db_rasa_cb',
+                                                user='root',
+                                                port=3306)
+            if connection.is_connected():
+                db_Info = connection.get_server_info()
+                cursor = connection.cursor()
+                cursor.execute("select database();")
+                record = cursor.fetchone()
+                return cursor
+
+        except Error as e:
+            dispatcher.utter_message(text="Some problem occurred while connecting to the DataBase")
+
+#Varuabile globale necessaria alla connessione al db
+cursor = db_connect()
+
 
 # Define a function for validating an Email
 def check_mail(email):
@@ -31,11 +55,13 @@ def api_wiki(PAGE,end_content,indx):
     return json_data
         
 def unitPrice(room):
-    if room == "Deluxe Room":
+#def unitPrice(room,adults,kids):
+
+    if room == "Deluxe":
         return 500
-    elif room == "Junior Suite":
+    elif room == "Standard":
         return 100
-    elif room == "Club Suite":
+    elif room == "Presidential":
         return 1000
 
 class NearestAttractions(Action):
@@ -102,10 +128,10 @@ class CheckRooms(Action):
         return "action_check_rooms"
 
     def run(self,dispatcher,tracker,domain):
-        deluxe_room = {"title":"Deluxe Room","image":"https://d2e5ushqwiltxm.cloudfront.net/wp-content/uploads/sites/125/2017/05/25023446/Rooms-Suites-Section-2nd-Room-Deluxe-Room.jpg",}
-        junior_suite = {"title":"Junior Suite","image":"https://www.discoverysuites.com/files/2015/06/Junior-Suite-Deluxe.jpg"}
-        club_suite = {"title":"Club Suite","image":"https://media-cdn.tripadvisor.com/media/photo-s/12/77/d8/18/club-suite-living-room.jpg"}
-        room_type = [deluxe_room,junior_suite,club_suite]
+        deluxe = {"title":"Deluxe","image":"https://d2e5ushqwiltxm.cloudfront.net/wp-content/uploads/sites/125/2017/05/25023446/Rooms-Suites-Section-2nd-Room-Deluxe-Room.jpg",}
+        standard = {"title":"Standard","image":"https://www.discoverysuites.com/files/2015/06/Junior-Suite-Deluxe.jpg"}
+        presidential = {"title":"Presidential","image":"https://media-cdn.tripadvisor.com/media/photo-s/12/77/d8/18/club-suite-living-room.jpg"}
+        room_type = [deluxe,standard,presidential]
 
         for r in room_type:
             msg="\n\n"+r["title"]+"\n\n"
@@ -124,7 +150,7 @@ class ActionBookRoomForm(FormAction):
     def required_slots(tracker: Tracker) -> List[Text]:
         """A list of required slots that the form has to fill"""
         return ["adults","kids","checkin","checkout","email","phno","room"]
-    
+
     def submit(
             self,
             dispatcher: CollectingDispatcher,
@@ -338,8 +364,8 @@ class ValidateBookRoomForm(FormValidationAction):
         domain: DomainDict,
     ) -> Dict[Any, Any]:
         """Validate `room` value."""
-        room = slot_value
-        if room not in ["Deluxe Room","Junior Suite","Club Suite"]:
+        room = slot_value.lower()
+        if room not in ["deluxe","standard","presidential"]:
             dispatcher.utter_message(text=f"This room is not correct! Retry.")
             return {"room": None}
         else:

@@ -148,10 +148,10 @@ nlu:
     - i want to have a general view on your rooms
     - i'd like you to introduce the hotel
     - i'd like to check a room
-- intent: deluxe_room_details
+- intent: deluxe_details
   examples: |
-    - deluxe_room_details
-    - Deluxe Room details
+    - deluxe_details
+    - Deluxe details
     - I would like more details about deluxe room
     - i'd like some info about deluxe rooms
     - can you provide some information on deluxe?
@@ -160,30 +160,30 @@ nlu:
     - Can you gimme info on deluxe?
     - what is deluxe?
     - i want to know more about the deluxe room
-- intent: junior_suite_details
+- intent: standard_details
   examples: |
-    - junior_suite_details
-    - Junior Suite details
-    - I would like more details about junior suite
-    - i'd like some info about junior suite
-    - can you provide some information on junior?
-    - may i have info about junior suite?
-    - what about junior suite?
-    - Can you gimme info on junior?
-    - what is a junior suite?
-    - i want to know more about the junior suite
-- intent: club_suite_details
+    - standard_details
+    - Standard details
+    - I would like more details about standard room
+    - i'd like some info about standard room
+    - can you provide some information on standard?
+    - may i have info about economy room?
+    - what about standard room?
+    - Can you gimme info on standard?
+    - what is a standard room?
+    - i want to know more about the economy 
+- intent: presidential_details
   examples: |
-    - club_suite_details
-    - Club Suite details
-    - I would like more details about club suite
-    - i'd like some info about the club suite
-    - can you provide some information on club suite?
-    - may i have info about club suite?
-    - what about club suite?
-    - Can you gimme info on club suite?
-    - what is a club suite?
-    - i want to know more about the club suite
+    - presidential_details
+    - Presidential details
+    - I would like more details about presidential room
+    - i'd like some info about the presidential suite
+    - can you provide some information on presidential room?
+    - may i have info about presidential?
+    - what about presidential room?
+    - Can you gimme info on presidential suite?
+    - what is a Presidential?
+    - i want to know more about the presidential room
 - intent: faq_breakfast_menu
   examples: |
     - breakfast menu
@@ -332,9 +332,9 @@ nlu:
     - may i make a reservation for a room?
     - i wanna book a room
     - I want to book a Deluxe
-    - I wanna make a reservation for a junior suite
-    - i want to book a club suite
-    - i wanna book the deluxe room
+    - I wanna make a reservation for a standard 
+    - i want to book a presidential 
+    - i wanna book the presidential suite
 - intent: inform_date
   examples: |
     - [1/3/2023]{"entity": "date", "role": "checkin"} - [02/03/2023]{"entity": "date", "role": "checkout"}
@@ -443,17 +443,17 @@ nlu:
     - Mail id is [Parker123@gmail.com]{"entity": "contacts", "role": "email"}. My cell is [8786858483]{"entity": "contacts", "role": "phno"}
 - intent: inform_room
   examples: |
-    - I would like [deluxe rooms](room)
+    - I would like [deluxe](room)
     - [deluxe room](room)
-    - i want to reserve [club suite](room)
-    - i like the [junior suite](room)
-    - a [Club Suite](room)
-    - [Junior Suite](room)
-    - the [Deluxe Room](room) is suitable for me
-    - a [club Suite](room) is perfect
-    - i'm going for a [Club suite](room)
-    - i'll go for a [Junior suite](room)
-    - for me a [Deluxe room](room)
+    - i want to reserve [presidential](room)
+    - i like the [standard](room)
+    - a [Presidential](room)
+    - [Standard](room)
+    - the [Deluxe](room) room is suitable for me
+    - a [Presidential](room) suite is perfect 
+    - i'm going for a [presidential](room) room
+    - i'll go for a [Standard](room) room
+    - for me a [Deluxe](room) room
 - intent: summary_booking
   examples: |
     - I want to check the booking details
