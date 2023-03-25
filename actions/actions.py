@@ -129,11 +129,21 @@ class CheckRooms(Action):
     def name(self):
         """name of the custom action"""
         return "action_check_rooms"
+        # DELUXE:
+        # https://www.miasaigon.com/wp-content/uploads/2020/03/msg-deluxe-room-twin-bedroom.jpg
+        # https://d2ile4x3f22snf.cloudfront.net/wp-content/uploads/sites/177/2017/09/29111602/Premier_Grand_Deluxe.1-1400x700.jpg
+        # https://images6.alphacoders.com/476/476489.jpg
+        # STANDARD:
+        # https://images.pexels.com/photos/14025022/pexels-photo-14025022.jpeg
+        # https://images.pexels.com/photos/14021931/pexels-photo-14021931.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1
+        # PRESIDENTIAL:
+        # https://th.bing.com/th/id/R.73f6f9ccbe4e1d300282d2aa56c80e40?rik=qHzo7xftYiNcFA&riu=http%3a%2f%2fdtla.intercontinental.com%2fwp-content%2fuploads%2f2016%2f12%2fInterContinental-LA-Downtown_Presidential_Suite_Living_Room_A7116_jpg.jpg&ehk=KWM0rYN3QHlk2TWKJIPX9awkxcyWoZrZweNZ5gfz6dE%3d&risl=&pid=ImgRaw&r=0
+        # https://inspiration.rehlat.com/wp-content/uploads/2020/06/RCDUBAI_00195_conversion-min.jpg
 
     def run(self,dispatcher,tracker,domain):
-        deluxe = {"title":"Deluxe","image":"https://d2e5ushqwiltxm.cloudfront.net/wp-content/uploads/sites/125/2017/05/25023446/Rooms-Suites-Section-2nd-Room-Deluxe-Room.jpg",}
-        standard = {"title":"Standard","image":"https://www.discoverysuites.com/files/2015/06/Junior-Suite-Deluxe.jpg"}
-        presidential = {"title":"Presidential","image":"https://media-cdn.tripadvisor.com/media/photo-s/12/77/d8/18/club-suite-living-room.jpg"}
+        deluxe = {"title":"Deluxe","image":"",}
+        standard = {"title":"Standard","image":""}
+        presidential = {"title":"Presidential","image":""}
         room_type = [deluxe,standard,presidential]
 
         for r in room_type:
