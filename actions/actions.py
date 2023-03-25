@@ -461,12 +461,10 @@ class ValidateBookRoomForm(FormValidationAction):
                     # Commit your changes in the database
                     connection.commit()
                     print("OK")
-
+                    break
                 except Error:
-                        print("Error!")
-            cursor.close()
-            connection.close()
-            break
+                    print("Error!")
+                    break
         return {"room": room}
 
     def submit(
