@@ -26,11 +26,12 @@ def db_connect():
             if connection.is_connected():
                 # db_Info = connection.get_server_info()
                 print("DB is connected!")
-                cursor = connection.cursor()
+                cursor = connection.cursor(buffered=True)
                 cursor.execute("select database();")
-                record = cursor.fetchone()
                 query = ("SELECT * FROM room")
                 cursor.execute(query)
+                # record = cursor.fetchone()
+                
                 return connection,cursor
 
         except Error as e:
@@ -129,21 +130,11 @@ class CheckRooms(Action):
     def name(self):
         """name of the custom action"""
         return "action_check_rooms"
-        # DELUXE:
-        # https://www.miasaigon.com/wp-content/uploads/2020/03/msg-deluxe-room-twin-bedroom.jpg
-        # https://d2ile4x3f22snf.cloudfront.net/wp-content/uploads/sites/177/2017/09/29111602/Premier_Grand_Deluxe.1-1400x700.jpg
-        # https://images6.alphacoders.com/476/476489.jpg
-        # STANDARD:
-        # https://images.pexels.com/photos/14025022/pexels-photo-14025022.jpeg
-        # https://images.pexels.com/photos/14021931/pexels-photo-14021931.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1
-        # PRESIDENTIAL:
-        # https://th.bing.com/th/id/R.73f6f9ccbe4e1d300282d2aa56c80e40?rik=qHzo7xftYiNcFA&riu=http%3a%2f%2fdtla.intercontinental.com%2fwp-content%2fuploads%2f2016%2f12%2fInterContinental-LA-Downtown_Presidential_Suite_Living_Room_A7116_jpg.jpg&ehk=KWM0rYN3QHlk2TWKJIPX9awkxcyWoZrZweNZ5gfz6dE%3d&risl=&pid=ImgRaw&r=0
-        # https://inspiration.rehlat.com/wp-content/uploads/2020/06/RCDUBAI_00195_conversion-min.jpg
 
     def run(self,dispatcher,tracker,domain):
-        deluxe = {"title":"Deluxe","image":"",}
-        standard = {"title":"Standard","image":""}
-        presidential = {"title":"Presidential","image":""}
+        deluxe = {"title":"Deluxe","image":"https://www.miasaigon.com/wp-content/uploads/2020/03/msg-deluxe-room-twin-bedroom.jpg",}
+        standard = {"title":"Standard","image":"https://images.pexels.com/photos/14021931/pexels-photo-14021931.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"}
+        presidential = {"title":"Presidential","image":"https://th.bing.com/th/id/R.73f6f9ccbe4e1d300282d2aa56c80e40?rik=qHzo7xftYiNcFA&riu=http%3a%2f%2fdtla.intercontinental.com%2fwp-content%2fuploads%2f2016%2f12%2fInterContinental-LA-Downtown_Presidential_Suite_Living_Room_A7116_jpg.jpg&ehk=KWM0rYN3QHlk2TWKJIPX9awkxcyWoZrZweNZ5gfz6dE%3d&risl=&pid=ImgRaw&r=0"}
         room_type = [deluxe,standard,presidential]
 
         for r in room_type:
@@ -199,7 +190,7 @@ class AskForSlotAction(Action):
     def run(
         self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict
     ) -> List[EventType]:
-    
+
         rooms_available = []
 
         new_check_in=str(tracker.get_slot("checkin"))
@@ -219,8 +210,8 @@ class AskForSlotAction(Action):
                 check_in_new_date = datetime.strptime(new_check_in, "%d/%m/%Y").date()
                 check_out_new_date = datetime.strptime(new_check_out, "%d/%m/%Y").date()
 
-                if((check_in_new_date>check_in_date and check_in_new_date<check_out_date)
-                or(check_out_new_date<check_out_date and check_out_new_date>check_in_date)):
+                if((check_in_new_date>=check_in_date and check_in_new_date<check_out_date)
+                or(check_out_new_date<=check_out_date and check_out_new_date>check_in_date)):
                     flag = False
 
             # checking if this room is free during that time
@@ -230,12 +221,13 @@ class AskForSlotAction(Action):
                 if (button not in rooms_available):
                     rooms_available.append(button)
 
-                # room_name = str(room_type)+" Nr. "+str(room_id)
-
         button_list = rooms_available
         print(button_list)
         # Fetch the data and store in the format used by buttons.
-        dispatcher.utter_message(text="Which room would you like to book?", buttons=button_list)
+        if len(button_list)==0:
+            dispatcher.utter_message(text="There are no available rooms on the selected dates")
+        else:
+            dispatcher.utter_message(text=f"Available rooms for {new_check_in} - {new_check_out}", buttons=button_list)
         
         return []
 
@@ -429,12 +421,54 @@ class ValidateBookRoomForm(FormValidationAction):
             dispatcher.utter_message(text=f"This room is not correct! Retry.")
             return {"room": None}
         else:
-            # QUA BISOGNA AGGIUNGERE IL COLLEGAMENTO AL DB E L'UPDATE
-            # FORSE E' POSSIBILE PASSARE SIA IL TIPO DELLA STANZA CHE IL NUMERO NEL PAYLOAD
-            # POI IN QUESTA FASE SI DIVIDONO LE DUE INFORMAZIONI, UNA VERRA' MESSA NELLO SLOT
-            # L'ALTRO INVECE SARA' NECESSARIO PER L'INSERIMENTO
-            return {"room": room}
-    
+            new_check_in=str(tracker.get_slot("checkin"))
+            new_check_out=str(tracker.get_slot("checkout"))
+            new_query = ("SELECT * FROM room WHERE room_type = %s")
+        val = (room, )
+        cursor.execute(new_query,val)
+
+        for(room_id,room_type,reservations) in cursor:
+            json_res = json.loads(reservations)
+            flag = True
+
+            for res in json_res["res"]:
+                # flag used to check whether the room is available
+                date_string = res["check_in"]
+                check_in_date = datetime.strptime(date_string, "%d/%m/%Y").date()
+                date_string = res["check_out"]
+                check_out_date = datetime.strptime(date_string, "%d/%m/%Y").date()
+                
+                check_in_new_date = datetime.strptime(new_check_in, "%d/%m/%Y").date()
+                check_out_new_date = datetime.strptime(new_check_out, "%d/%m/%Y").date()
+
+                if((check_in_new_date>=check_in_date and check_in_new_date<check_out_date)
+                or(check_out_new_date<=check_out_date and check_out_new_date>check_in_date)):
+                    flag = False
+            if flag:
+                try:
+                    new_res = {
+                        "check_in": new_check_in,
+                        "check_out": new_check_out
+                        }
+                    json_res["res"].append(new_res)
+                    updt_res = json.dumps(json_res, indent=3)
+                    # print(updt_res)
+                    updt = ("UPDATE room SET reservations = %s WHERE room_id = %s")
+                    v = (updt_res,room_id)
+                    # Execute the SQL command
+                    cursor.execute(updt,v)
+                    print("Update Executed")                            
+                    # Commit your changes in the database
+                    connection.commit()
+                    print("OK")
+
+                except Error:
+                        print("Error!")
+            cursor.close()
+            connection.close()
+            break
+        return {"room": room}
+
     def submit(
             self,
             dispatcher: CollectingDispatcher,

@@ -444,7 +444,7 @@ nlu:
 - intent: inform_room
   examples: |
     - I would like [deluxe](room)
-    - [deluxe room](room)
+    - [deluxe](room) room
     - i want to reserve [presidential](room)
     - i like the [standard](room)
     - a [Presidential](room)

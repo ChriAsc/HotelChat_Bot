@@ -4,4 +4,5 @@
 /tests
 /credentials.yml
 /room.sql
+/prova.py
 actions/__pycache__
