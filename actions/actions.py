@@ -3,7 +3,7 @@ from rasa_sdk.executor import CollectingDispatcher
 from rasa_sdk import Tracker, FormValidationAction, Action
 from rasa_sdk.types import DomainDict
 from rasa.core.actions.forms import FormAction
-from rasa_sdk.events import  AllSlotsReset, EventType
+from rasa_sdk.events import  AllSlotsReset, EventType, SlotSet
 
 import mysql.connector
 from mysql.connector import Error
@@ -13,10 +13,18 @@ from datetime import datetime
 import re
 import wikipedia
 
-# Make a regular expression
-# for validating an Email
+# Make a regular expression in order to validatie an email
 regex = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,7}\b'
 
+# Define a function for validating an Email
+def check_mail(email):
+    # pass the regular expression and the string into the fullmatch() method
+    if(re.fullmatch(regex, email)):
+        return True
+    else:
+        return False
+
+# Connection to the database
 def db_connect():
         try:
             connection = mysql.connector.connect(host='localhost',
@@ -34,21 +42,13 @@ def db_connect():
                 
                 return connection,cursor
 
-        except Error as e:
+        except Error:
             print("Some problem occurred while connecting to the DataBase")
 
-#Varuabile globale necessaria alla connessione al db
-connection,cursor = db_connect()
+# # Global variable used to connect the db
+# connection,cursor = db_connect()
 
-
-# Define a function for validating an Email
-def check_mail(email):
-    # pass the regular expression and the string into the fullmatch() method
-    if(re.fullmatch(regex, email)):
-        return True
-    else:
-        return False
-
+# using the wiki api, some info are stored in a json
 def api_wiki(PAGE,end_content,indx):
     wikipedia.set_lang("en")
     city = wikipedia.page(title=PAGE)
@@ -68,6 +68,7 @@ def unitPrice(room):
     elif room == "Presidential":
         return 1000
 
+# Action used to show all the attractions in the static db
 class NearestAttractions(Action):
     def name(self):
         """name of the custom action"""
@@ -87,6 +88,7 @@ class NearestAttractions(Action):
             dispatcher.utter_message(text=msg,image=att["image"])
         return []
 
+# Action that shows the details of a chosen attraction
 class DetailsAttraction(FormValidationAction):
     def name(self):
         """name of the custom action"""
@@ -126,6 +128,7 @@ class DetailsAttraction(FormValidationAction):
             dispatcher.utter_message(text=f"OK! Here some info about {slot_value}:\n" + website)
         return {"attraction": None}
 
+# Action that shows the rooms' details
 class CheckRooms(Action):
     def name(self):
         """name of the custom action"""
@@ -143,9 +146,8 @@ class CheckRooms(Action):
 
         dispatcher.utter_message(text="If you desire any further information, feel free to ask for more details.")
         return []
-    
+   
 class ActionBookRoomForm(FormAction):
-
     def name(self) -> Text:
         """Unique identifier of the form"""
         return "book_room_form"
@@ -191,17 +193,23 @@ class AskForSlotAction(Action):
         self, dispatcher: CollectingDispatcher, tracker: Tracker, domain: Dict
     ) -> List[EventType]:
 
+        # variable used to connect the db
+        connection,cursor = db_connect()
+
         rooms_available = []
 
+        # check-in and check-out stored in the slots
         new_check_in=str(tracker.get_slot("checkin"))
         new_check_out=str(tracker.get_slot("checkout"))
 
+        # Iterating over the rows, each room is checked
         for(room_id,room_type,reservations) in cursor:
-
+            # only reservation field is read
             json_res = json.loads(reservations)
+            # flag used to check whether the room is available
             flag = True
             for res in json_res["res"]:
-                # flag used to check whether the room is available
+                
                 date_string = res["check_in"]
                 check_in_date = datetime.strptime(date_string, "%d/%m/%Y").date()
                 date_string = res["check_out"]
@@ -210,25 +218,35 @@ class AskForSlotAction(Action):
                 check_in_new_date = datetime.strptime(new_check_in, "%d/%m/%Y").date()
                 check_out_new_date = datetime.strptime(new_check_out, "%d/%m/%Y").date()
 
+                # by this condition, the room's availability is verified
                 if((check_in_new_date>=check_in_date and check_in_new_date<check_out_date)
                 or(check_out_new_date<=check_out_date and check_out_new_date>check_in_date)):
+                    # setting the flag to false means that the room cannot be booked
                     flag = False
+                    break
 
-            # checking if this room is free during that time
+            # checking if this room is free during that period
             if flag:
                 button = {"title": room_type, "payload": '/inform_room{"room":"'+room_type+'"}'}
                 # room type only is shown to the user
                 if (button not in rooms_available):
                     rooms_available.append(button)
 
+        # Fetch the data and store in the format used by buttons.
         button_list = rooms_available
         print(button_list)
-        # Fetch the data and store in the format used by buttons.
         if len(button_list)==0:
-            dispatcher.utter_message(text="There are no available rooms on the selected dates")
+            dispatcher.utter_message(text="There are no available rooms on the selected dates.\nPlease, try again.")
+            cursor.close()
+            print("DB was shut down!")
+            connection.close()
+            dispatcher.utter_message(response="utter_ask_checkin")
+            return [SlotSet('checkin', None), SlotSet('checkout', None)]
         else:
-            dispatcher.utter_message(text=f"Available rooms for {new_check_in} - {new_check_out}", buttons=button_list)
-        
+            dispatcher.utter_message(text=f"Available rooms for:\n{new_check_in} - {new_check_out}", buttons=button_list)
+        cursor.close()
+        print("DB was shut down!")
+        connection.close()
         return []
 
 class ValidateNameForm(FormValidationAction):
@@ -421,51 +439,70 @@ class ValidateBookRoomForm(FormValidationAction):
             dispatcher.utter_message(text=f"This room is not correct! Retry.")
             return {"room": None}
         else:
+            # variable used to connect the db
+            connection,cursor = db_connect()
+
+            # check-in and check-out stored in the slots
             new_check_in=str(tracker.get_slot("checkin"))
             new_check_out=str(tracker.get_slot("checkout"))
+            # this query select only rooms that are compliant with type
             new_query = ("SELECT * FROM room WHERE room_type = %s")
-        val = (room, )
-        cursor.execute(new_query,val)
+            val = (room, )
+            cursor.execute(new_query,val)
 
-        for(room_id,room_type,reservations) in cursor:
-            json_res = json.loads(reservations)
-            flag = True
-
-            for res in json_res["res"]:
+            # Iterating over the rows, each room is checked
+            for(room_id,room_type,reservations) in cursor:
+                # only reservation field is read
+                json_res = json.loads(reservations)
                 # flag used to check whether the room is available
-                date_string = res["check_in"]
-                check_in_date = datetime.strptime(date_string, "%d/%m/%Y").date()
-                date_string = res["check_out"]
-                check_out_date = datetime.strptime(date_string, "%d/%m/%Y").date()
-                
-                check_in_new_date = datetime.strptime(new_check_in, "%d/%m/%Y").date()
-                check_out_new_date = datetime.strptime(new_check_out, "%d/%m/%Y").date()
+                flag = True
 
-                if((check_in_new_date>=check_in_date and check_in_new_date<check_out_date)
-                or(check_out_new_date<=check_out_date and check_out_new_date>check_in_date)):
-                    flag = False
-            if flag:
-                try:
-                    new_res = {
-                        "check_in": new_check_in,
-                        "check_out": new_check_out
-                        }
-                    json_res["res"].append(new_res)
-                    updt_res = json.dumps(json_res, indent=3)
-                    # print(updt_res)
-                    updt = ("UPDATE room SET reservations = %s WHERE room_id = %s")
-                    v = (updt_res,room_id)
-                    # Execute the SQL command
-                    cursor.execute(updt,v)
-                    print("Update Executed")                            
-                    # Commit your changes in the database
-                    connection.commit()
-                    print("OK")
-                    break
-                except Error:
-                    print("Error!")
-                    break
-        return {"room": room}
+                for res in json_res["res"]:
+                    
+                    date_string = res["check_in"]
+                    check_in_date = datetime.strptime(date_string, "%d/%m/%Y").date()
+                    date_string = res["check_out"]
+                    check_out_date = datetime.strptime(date_string, "%d/%m/%Y").date()
+                    
+                    check_in_new_date = datetime.strptime(new_check_in, "%d/%m/%Y").date()
+                    check_out_new_date = datetime.strptime(new_check_out, "%d/%m/%Y").date()
+
+                    # by this condition, the room's availability is verified
+                    if((check_in_new_date>=check_in_date and check_in_new_date<check_out_date)
+                    or(check_out_new_date<=check_out_date and check_out_new_date>check_in_date)):
+                        # setting the flag to false means that the room cannot be booked
+                        flag = False
+                        break
+
+                # checking if this room is free during that period            
+                if flag:
+                    try:
+                        new_res = {
+                            "check_in": new_check_in,
+                            "check_out": new_check_out
+                            }
+                        
+                        json_res["res"].append(new_res)
+                        updt_res = json.dumps(json_res, indent=3)
+                        # this query allows to update the reservation field relative to a particular id
+                        updt = ("UPDATE room SET reservations = %s WHERE room_id = %s")
+                        v = (updt_res,room_id)
+                        # Execute the SQL command
+                        cursor.execute(updt,v)                           
+                        # Commit your changes in the database
+                        connection.commit()
+                        print("Update executed successfully") 
+                        break
+                    except Error as e:
+                        print(e)
+                        cursor.close()
+                        print("DB was shut down!")
+                        connection.close()
+                        return {"room": None}
+            cursor.close()
+            print("DB was shut down!")
+            connection.close()
+            return {"room": room}
 
     def submit(
             self,
