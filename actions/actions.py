@@ -38,15 +38,11 @@ def db_connect():
                 cursor.execute("select database();")
                 query = ("SELECT * FROM room")
                 cursor.execute(query)
-                # record = cursor.fetchone()
-                
+
                 return connection,cursor
 
         except Error:
             print("Some problem occurred while connecting to the DataBase")
-
-# # Global variable used to connect the db
-# connection,cursor = db_connect()
 
 # using the wiki api, some info are stored in a json
 def api_wiki(PAGE,end_content,indx):
@@ -59,7 +55,6 @@ def api_wiki(PAGE,end_content,indx):
     return json_data
         
 def unitPrice(room):
-#def unitPrice(room,adults,kids):
 
     if room == "Deluxe":
         return 500
@@ -243,7 +238,7 @@ class AskForSlotAction(Action):
             dispatcher.utter_message(response="utter_ask_checkin")
             return [SlotSet('checkin', None), SlotSet('checkout', None)]
         else:
-            dispatcher.utter_message(text=f"Available rooms for:\n{new_check_in} - {new_check_out}", buttons=button_list)
+            dispatcher.utter_message(text=f"Available rooms for:\n{new_check_in} - {new_check_out}", buttons=button_list, button_type="vertical")
         cursor.close()
         print("DB was shut down!")
         connection.close()
