@@ -522,49 +522,56 @@ class BookRoomsDetails(Action):
         return "action_book_room_details" 
 
     def run(self,dispatcher,tracker,domain):
+        try:
+            check_in=str(tracker.get_slot("checkin"))
+            check_out=str(tracker.get_slot("checkout"))
+            adults=str(tracker.get_slot("adults"))
+            kids=str(tracker.get_slot("kids"))
+            room=str(tracker.get_slot("room"))
+            first_name=str(tracker.get_slot("first_name"))
+            last_name=str(tracker.get_slot("last_name"))
+            phno=str(tracker.get_slot("phno"))
+            email=str(tracker.get_slot("email"))
+            name = str(first_name) + " " + str(last_name)
+            unit_price = unitPrice(room)
+            n_days = (datetime.strptime(check_out, '%d/%m/%Y').date() - datetime.strptime(check_in, '%d/%m/%Y').date()).days
+            price = str(n_days*unit_price)
 
-        check_in=str(tracker.get_slot("checkin"))
-        check_out=str(tracker.get_slot("checkout"))
-        adults=str(tracker.get_slot("adults"))
-        kids=str(tracker.get_slot("kids"))
-        room=str(tracker.get_slot("room"))
-        first_name=str(tracker.get_slot("first_name"))
-        last_name=str(tracker.get_slot("last_name"))
-        phno=str(tracker.get_slot("phno"))
-        email=str(tracker.get_slot("email"))
-        name = str(first_name) + " " + str(last_name)
-        unit_price = unitPrice(room)
-        n_days = (datetime.strptime(check_out, '%d/%m/%Y').date() - datetime.strptime(check_in, '%d/%m/%Y').date()).days
-        price = str(n_days*unit_price)
+            connection,cursor = db_connect()
+            new_query = ("SELECT * FROM room WHERE room_type = %s")
+            val = (room, )
+            cursor.execute(new_query,val)
+            for(room_id,room_type,reservations) in cursor:
+                    # only reservation field is read
+                    json_res = json.loads(reservations)
+                    # flag used to check whether the room is available
+                    flag = True
 
-        connection,cursor = db_connect()
-        new_query = ("SELECT * FROM room WHERE room_type = %s")
-        val = (room, )
-        cursor.execute(new_query,val)
-        for(room_id,room_type,reservations) in cursor:
-                # only reservation field is read
-                json_res = json.loads(reservations)
-                # flag used to check whether the room is available
-                flag = True
+                    for res in json_res["res"]:
+                        date_string = res["check_in"]
+                        check_in_date = datetime.strptime(date_string, "%d/%m/%Y").date()
+                        date_string = res["check_out"]
+                        check_out_date = datetime.strptime(date_string, "%d/%m/%Y").date()
+                        
+                        check_in_new_date = datetime.strptime(check_in, "%d/%m/%Y").date()
+                        check_out_new_date = datetime.strptime(check_out, "%d/%m/%Y").date()
 
-                for res in json_res["res"]:
-                    date_string = res["check_in"]
-                    check_in_date = datetime.strptime(date_string, "%d/%m/%Y").date()
-                    date_string = res["check_out"]
-                    check_out_date = datetime.strptime(date_string, "%d/%m/%Y").date()
-                    
-                    check_in_new_date = datetime.strptime(check_in, "%d/%m/%Y").date()
-                    check_out_new_date = datetime.strptime(check_out, "%d/%m/%Y").date()
-
-                    # by this condition, the room's availability is verified
-                    if((check_in_new_date == check_in_date and check_out_new_date==check_out_date)
-                    and(name == res["reference"])):
-                        room = room + " n° " + str(room_id)
+                        # by this condition, the room's availability is verified
+                        if((check_in_new_date == check_in_date and check_out_new_date==check_out_date)
+                        and(name == res["reference"])):
+                            room = room + " n° " + str(room_id)
 
 
-        message="BOOKING DETAILS:"+"\n\n"+"Name: "+name+"\n"+"Check-in Date: "+check_in+"\n"+"Check-out Date: "+check_out+"\n"+"No. of Adults: "+adults+"\n"+"No. of Kids: "+kids+"\n"+"Room: "+room+"\n"+"Phone Number: "+phno+"\n"+"Email: "+email
-        dispatcher.utter_message(message)
-        dispatcher.utter_message(text="Total price: € " + price)
+            message="BOOKING DETAILS:"+"\n\n"+"Name: "+name+"\n"+"Check-in Date: "+check_in+"\n"+"Check-out Date: "+check_out+"\n"+"No. of Adults: "+adults+"\n"+"No. of Kids: "+kids+"\n"+"Room: "+room+"\n"+"Phone Number: "+phno+"\n"+"Email: "+email
+            dispatcher.utter_message(message)
+            dispatcher.utter_message(text="Total price: € " + price)
+        except Error as e:
+            print(e)
+        finally:
+            cursor.close()
+            print("DB was shut down!")
+            connection.close()
+            return []
 
 class ActionFullReset(Action):
     def name(self) -> Text:
