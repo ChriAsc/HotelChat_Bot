@@ -425,20 +425,10 @@ nlu:
     - [2]{"entity": "people", "role": "adults"} adults and [2]{"entity": "people", "role": "kids"} kids
     - [3]{"entity": "people", "role": "adults"} adults [4]{"entity": "people", "role": "kids"} children
     - [1]{"entity": "people", "role": "adults"} adult and [no]{"entity": "people", "role": "kids"} kids
-    - [6]{"entity": "people", "role": "kids"} kid and [1]{"entity": "people", "role": "adults"} adult
-    - [5]{"entity": "people", "role": "kids"} kids , and [5]{"entity": "people", "role": "adults"} adults
-    - [1]{"entity": "people", "role": "kids"} kid - [2]{"entity": "people", "role": "adults"} adults
-    - 'we will be [4]{"entity": "people", "role": "kids"} kids and with us there is [1]{"entity": "people", "role": "adults"} adults'
-    - 'we book for [8]{"entity": "people", "role": "kids"} kids, there will be [4]{"entity": "people", "role": "adults"} adults'
-    - 'we will be [3]{"entity": "people", "role": "kids"} kids and [5]{"entity": "people", "role": "adults"} adults'
-    - [6]{"entity": "people", "role": "kids"} [1]{"entity": "people", "role": "adults"}
-    - [5]{"entity": "people", "role": "kids"} kids, also we book for [5]{"entity": "people", "role": "adults"} adults
-    - [1]{"entity": "people", "role": "kids"} kids - [0]{"entity": "people", "role": "adults"}
-    - [8]{"entity": "people", "role": "kids"} kids - [2]{"entity": "people", "role": "adults"} adults
-    - [7]{"entity": "people", "role": "kids"} kids - [3]{"entity": "people", "role": "adults"}
-    - [2]{"entity": "people", "role": "kids"} kids [4]{"entity": "people", "role": "adults"}
-    - [6]{"entity": "people", "role": "kids"} kids, also we book for [2]{"entity": "people", "role": "adults"} adults
-    - [1]{"entity": "people", "role": "kids"} [0]{"entity": "people", "role": "adults"}
+    - [5]{"entity": "people", "role": "adults"} and [1]{"entity": "people", "role": "kids"}
+    - [2]{"entity": "people", "role": "adults"} adults [2]{"entity": "people", "role": "kids"} kids
+    - [3]{"entity": "people", "role": "adults"} adults [4]{"entity": "people", "role": "kids"} kids
+    - [1]{"entity": "people", "role": "adults"} adult [no]{"entity": "people", "role": "kids"} kids
 - intent: inform_contacts
   examples: |
     - My email is [example@example.com]{"entity": "contacts", "role": "email"} and my phone number is [+393331234567]{"entity": "contacts", "role": "phno"}
@@ -456,6 +446,11 @@ nlu:
     - my emayl is [V_Comley@Nelson.com]{"entity": "contacts", "role": "email"}, [9957314135]{"entity": "contacts", "role": "phno"}
     - [flowersblooms45@reddit.com]{"entity": "contacts", "role": "email"}. mobile number is [9296452144]{"entity": "contacts", "role": "phno"}
     - Mail id is [Parker123@gmail.com]{"entity": "contacts", "role": "email"}. My cell is [8786858483]{"entity": "contacts", "role": "phno"}
+    - [rndm_ml@dom.com]{"entity": "contacts", "role": "email"}, [+39 33445676432]{"entity": "contacts", "role": "phno"}
+    - [rndm_ml@dom.com]{"entity": "contacts", "role": "email"}, [+39 328 74 76 442]{"entity": "contacts", "role": "phno"}
+    - mail: [rndm_ml@dom.com]{"entity": "contacts", "role": "email"} number: [+39 345 66 54 321]{"entity": "contacts", "role": "phno"}
+    - email: [randomly_generated@dom.org]{"entity": "contacts", "role": "email"} ,phone: [+44 005443543]{"entity": "contacts", "role": "phno"}
+    - email [smth_other@live.it]{"entity": "contacts", "role": "email"} ,phone [0044774223453]{"entity": "contacts", "role": "phno"}
 - intent: inform_room
   examples: |
     - I would like [deluxe](room)
