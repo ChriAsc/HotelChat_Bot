@@ -424,6 +424,11 @@ nlu:
     - [4]{"entity": "people", "role": "adults"} adults and [1]{"entity": "people", "role": "kids"} kid
     - [2]{"entity": "people", "role": "adults"} adults and [2]{"entity": "people", "role": "kids"} kids
     - [3]{"entity": "people", "role": "adults"} adults [4]{"entity": "people", "role": "kids"} children
+    - [1]{"entity": "people", "role": "adults"} adult and [no]{"entity": "people", "role": "kids"} kids
+    - [6]{"entity": "people", "role": "kids"} kid and [1]{"entity": "people", "role": "adults"} adult
+    - [5]{"entity": "people", "role": "kids"} kids , and [5]{"entity": "people", "role": "adults"} adults
+    - [1]{"entity": "people", "role": "kids"} kid - [2]{"entity": "people", "role": "adults"} adults
+    
 - intent: inform_contacts
   examples: |
     - My email is [example@example.com]{"entity": "contacts", "role": "email"} and my phone number is [+393331234567]{"entity": "contacts", "role": "phno"}

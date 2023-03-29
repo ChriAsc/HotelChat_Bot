@@ -54,15 +54,15 @@ def api_wiki(PAGE,end_content,indx):
     json_data = {"title":title, "content":content, "image":image}
     return json_data
         
-def unitPrice(room):
+def unitPrice(room,n_adults, n_kids):
 
     if room == "Deluxe":
-        return 500
+        price = ((n_adults*500)+(n_kids*100))
     elif room == "Standard":
-        return 100
+        price = ((n_adults*50)+(n_kids*10))
     elif room == "Presidential":
-        return 1000
-
+        price = ((n_adults*1000)+(n_kids*200))
+    return price
 # Action used to show all the attractions in the static db
 class NearestAttractions(Action):
     def name(self):
@@ -538,7 +538,7 @@ class BookRoomsDetails(Action):
             phno=str(tracker.get_slot("phno"))
             email=str(tracker.get_slot("email"))
             name = str(first_name) + " " + str(last_name)
-            unit_price = unitPrice(room)
+            unit_price = unitPrice(room,int(adults),int(kids))
             n_days = (datetime.strptime(check_out, '%d/%m/%Y').date() - datetime.strptime(check_in, '%d/%m/%Y').date()).days
             price = str(n_days*unit_price)
 
