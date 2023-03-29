@@ -208,7 +208,7 @@ responses:
   utter_contactnumber:
   - text: The hotel can be contacted directly on +39 333 33 33 333.
   utter_faq_prompt:
-  - text: Well ... firstly, you can check the rooms, the main attractions around and then you can proceed with the booking. Additionallly, request anything about reception opening hours, cancellation policy, refund, breakfast time, breakfast menu, check-in/check-out, kids policy, pets.
+  - text: Well ... here's a list of possible requests :\n- check the rooms \n- main attractions around \n- proceed with booking \n- limit on the number of bookings \n- confirmation of reservation \n- reception opening hours \n- hotel's phone number \n- cancellation policy \n- refund \n- breakfast time and menu \n- check-in/check-out \n- kids policy \n- pets policy
   utter_breakfastmenu:
   - text: Buffet breakfast, Continental breakfast, Italian breakfast and Full American breakfast (extra fee may apply).
   utter_petpolicy: 
