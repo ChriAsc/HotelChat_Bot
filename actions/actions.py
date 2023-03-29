@@ -444,6 +444,9 @@ class ValidateBookRoomForm(FormValidationAction):
             # check-in and check-out stored in the slots
             new_check_in=str(tracker.get_slot("checkin"))
             new_check_out=str(tracker.get_slot("checkout"))
+            
+            kids = str(tracker.get_slot("kids"))
+            adults = str(tracker.get_slot("adults"))
             # this query select only rooms that are compliant with type
             new_query = ("SELECT * FROM room WHERE room_type = %s")
             val = (room, )
@@ -479,7 +482,9 @@ class ValidateBookRoomForm(FormValidationAction):
                         new_res = {
                             "check_in": new_check_in,
                             "check_out": new_check_out,
-                            "reference": name
+                            "reference": name,
+                            "kids": kids,
+                            "adults": adults
                             }
                         
                         json_res["res"].append(new_res)
@@ -560,7 +565,6 @@ class BookRoomsDetails(Action):
                     if((check_in_new_date == check_in_date and check_out_new_date==check_out_date)
                     and(name == res["reference"])):
                         room = room + " n° " + str(room_id)
-
 
         message="BOOKING DETAILS:"+"\n\n"+"Name: "+name+"\n"+"Check-in Date: "+check_in+"\n"+"Check-out Date: "+check_out+"\n"+"No. of Adults: "+adults+"\n"+"No. of Kids: "+kids+"\n"+"Room: "+room+"\n"+"Phone Number: "+phno+"\n"+"Email: "+email
         dispatcher.utter_message(message)
