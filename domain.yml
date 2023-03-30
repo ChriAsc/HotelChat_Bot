@@ -194,11 +194,11 @@ responses:
   utter_cancellationpolicy:
   - text: If your travel plans change, you can cancel or modify your reservation in accordance with the hotel's cancellation policy as stated during the reservation process.
   utter_check_in:
-  - text: The check-in time is after 3 PM. Let us know your arrival time in case you schedule an early check-in we'll do our best to make your room available. The hotel has a minimum age requirement of 21 years old. Please call the hotel directly prior to your arrival to make any necessary arrangements. Hotel direct phone numbers can be found on your confirmation email or on the Hotel Information page
+  - text: The check-in time is after 3 PM. Let us know your arrival time in case you schedule an early check-in we'll do our best to make your room available. The hotel has a minimum age requirement of 21 years old. Please call the hotel directly prior to your arrival to make any necessary arrangements. Hotel direct phone numbers can be found on your confirmation email or on the Hotel Information page.
   utter_check_out: 
-  - text: Check-out time is 12.00 AM.
+  - text: Check-out time is 11 AM.
   utter_childrenage:
-  - text: Yes, children up to the age of 2 stay for free (accompanied by an adult).
+  - text: Kids ages 12 (and under) stay free.
   utter_presidential_details: 
   - text: "An exclusive 500 sqft room that redefines luxury. As you enter the suite, you are immediately struck by the spaciousness of the room. The living area is tastefully furnished with plush sofas, armchairs, and a grand piano. Large windows bathe the space in natural light, adding to the already inviting atmosphere. The master bedroom is equally impressive, featuring a king-sized bed dressed in the finest linens and a stunning en-suite bathroom with a Jacuzzi tub and a separate shower. The room also boasts a walk-in closet, ensuring ample storage space for your belongings. The Presidential Hotel Suite comes equipped with all the latest technology, including high-speed Wi-Fi, flat-screen televisions, and state-of-the-art sound systems. You can relax and unwind while enjoying your favorite movies or music from the comfort of your luxurious surroundings. In addition to the superb amenities, the suite provides a range of personalized services to cater to your every need. \nPrice: \nAdults: 1000 €/night \nKids: 200 €/night"
   utter_deluxe_details:
