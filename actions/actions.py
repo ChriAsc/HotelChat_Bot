@@ -344,21 +344,20 @@ class ValidateBookRoomForm(FormValidationAction):
         """Validate `checkin` value."""
         date_str = slot_value
         present = datetime.now().date()
-        try:
-            for fmt in ('%d/%m/%Y', '%d-%m-%Y', '%Y/%m/%d', '%Y-%m-%d'):
-                try:
-                    date_obj = datetime.strptime(date_str, fmt).date()
-                    if date_obj < present:
-                        dispatcher.utter_message(text=f"Check-in date cannot be past date! Please, retry.")
-                        return {"checkin": None}
-                    else:
-                        date_obj = date_obj.strftime('%d/%m/%Y')
-                        return {"checkin": date_obj}
-                except ValueError:
-                    pass
-        except:
-            dispatcher.utter_message(text=f"Check-in date is not correct! Please, retry.")
-            return {"checkin": None}
+        for fmt in ('%d/%m/%Y', '%d-%m-%Y', '%Y/%m/%d', '%Y-%m-%d'):
+            try:
+                date_obj = datetime.strptime(date_str, fmt).date()
+                if date_obj < present:
+                    dispatcher.utter_message(text=f"Check-in date cannot be past date! Please, retry.")
+                    return {"checkin": None}
+                else:
+                    date_obj = date_obj.strftime('%d/%m/%Y')
+                    return {"checkin": date_obj}
+            except ValueError:
+                pass
+
+        dispatcher.utter_message(text=f"Check-in date is not correct! Please, retry.")
+        return {"checkin": None}
 
     def validate_checkout(
         self,
@@ -387,9 +386,12 @@ class ValidateBookRoomForm(FormValidationAction):
                         return {"checkout": date_obj}
                 except ValueError:
                     pass
-        except:
-            dispatcher.utter_message(text=f"Check-out date is not correct! Please, retry.")
-            return {"checkout": None}
+        except Error as e:
+            print(e)
+            
+        dispatcher.utter_message(text=f"Check-out date is not correct! Please, retry.")
+        return {"checkout": None}
+            
 
     def validate_email(
         self,
