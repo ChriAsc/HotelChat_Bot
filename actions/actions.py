@@ -105,7 +105,7 @@ class DetailsAttraction(FormValidationAction):
         """Validate `attraction` value."""
 
         if slot_value.lower() not in self.attraction_db():
-            dispatcher.utter_message(text=f"I didn't find anything. \nBut you can find more info about the nearest attractions here: ---> https://www.rivieradelconero.info/en/")
+            dispatcher.utter_message(text=f"I didn't find anything. \nBut you can find more info about the nearest attractions here: \n---> https://www.rivieradelconero.info/en/")
             # return {"attraction": None}
         else:
             if slot_value.lower() == self.attraction_db()[0]:

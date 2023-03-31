@@ -136,6 +136,15 @@ nlu:
     - what can you say about [recanati](attraction)
     - so ... about [castelfidardo](attraction)
     - i wanna know something else about [Ancona](attraction)
+    - can you tell me something more about [Macerat](attraction)?
+    - i want more information of [Potenza Picena](attraction)
+    - tell me about [ascoli piceno](attraction)
+    - tell me something else on [ascoli](attraction)
+    - i want to ask something about [urbino](attraction)
+    - say something about [Pesaro](attraction)
+    - what can you say about [Fermo](attraction)
+    - so ... about [porto san giorgio](attraction)
+    - i wanna know something else about [San Severino](attraction)
 - intent: check_rooms
   examples: |
     - chec rooms
