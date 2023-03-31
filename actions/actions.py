@@ -431,7 +431,7 @@ class ValidateBookRoomForm(FormValidationAction):
         """Validate `room` value."""
         room = slot_value
         if room not in ["Deluxe","Standard","Presidential"]:
-            dispatcher.utter_message(text=f"This room is not correct! Retry.")
+            #dispatcher.utter_message(text=f"This room is not correct! Retry.")
             return {"room": None}
         else:
             first_name=str(tracker.get_slot("first_name"))

@@ -460,8 +460,16 @@ stories:
   - action: utter_goodbye
   - action: action_reset
   
-- story: First Book Form
+- story: First check all the rooms then make a reservation
   steps:
+  - intent: check_rooms
+  - action: action_check_rooms
+  - intent: deluxe_details
+  - action: utter_deluxe_details
+  - intent: presidential_details
+  - action: utter_presidential_details
+  - intent: standard_details
+  - action: utter_standard_details
   - intent: book_rooms
   - action: book_room_form
   - active_loop: book_room_form

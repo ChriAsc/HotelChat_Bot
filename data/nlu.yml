@@ -462,17 +462,12 @@ nlu:
     - email [smth_other@live.it]{"entity": "contacts", "role": "email"} ,phone [0044774223453]{"entity": "contacts", "role": "phno"}
 - intent: inform_room
   examples: |
-    - I would like [deluxe](room)
+    - [Deluxe](room)
     - [deluxe](room) room
-    - i want to reserve [presidential](room)
-    - i like the [standard](room)
-    - a [Presidential](room)
+    - [presidential](room)
+    - [standard](room)
+    - [Presidential](room)
     - [Standard](room)
-    - the [Deluxe](room) room is suitable for me
-    - a [Presidential](room) suite is perfect 
-    - i'm going for a [presidential](room) room
-    - i'll go for a [Standard](room) room
-    - for me a [Deluxe](room) room
 - intent: summary_booking
   examples: |
     - I want to check the booking details
