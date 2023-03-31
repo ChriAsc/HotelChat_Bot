@@ -157,6 +157,7 @@ nlu:
     - i want to have a general view on your rooms
     - i'd like you to introduce the hotel
     - i'd like to check a room
+    - show me the rooms
 - intent: deluxe_details
   examples: |
     - deluxe_details
