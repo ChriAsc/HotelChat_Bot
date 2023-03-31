@@ -569,7 +569,7 @@ class BookRoomsDetails(Action):
                             room = room + " n° " + str(room_id)
 
 
-            message="BOOKING DETAILS:"+"\n"+"Name: "+name+"\n"+"Check-in Date: "+check_in+"\n"+"Check-out Date: "+check_out+"\n"+"No. of Adults: "+adults+"\n"+"No. of Kids: "+kids+"\n"+"Room: "+room+"\n"+"Phone Number: "+phno+"\n"+"Email: "+email
+            message="BOOKING DETAILS"+"\n"+"Name: "+name+"\n"+"Check-in Date: "+check_in+"\n"+"Check-out Date: "+check_out+"\n"+"No. of Adults: "+adults+"\n"+"No. of Kids: "+kids+"\n"+"Room: "+room+"\n"+"Phone Number: "+phno+"\n"+"Email: "+email
             dispatcher.utter_message(message)
             dispatcher.utter_message(text="Total price: € " + price)
         except Error as e:

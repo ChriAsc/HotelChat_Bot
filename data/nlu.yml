@@ -432,12 +432,12 @@ nlu:
     - 'we will be [6]{"entity": "people", "role": "adults"} and [0]{"entity": "people", "role": "kids"} kids'
     - [4]{"entity": "people", "role": "adults"} adults and [1]{"entity": "people", "role": "kids"} kid
     - [2]{"entity": "people", "role": "adults"} adults and [2]{"entity": "people", "role": "kids"} kids
-    - [3]{"entity": "people", "role": "adults"} adults [4]{"entity": "people", "role": "kids"} children
+    - we are [3]{"entity": "people", "role": "adults"} adults [4]{"entity": "people", "role": "kids"} children
     - [1]{"entity": "people", "role": "adults"} adult and [no]{"entity": "people", "role": "kids"} kids
-    - [5]{"entity": "people", "role": "adults"} and [1]{"entity": "people", "role": "kids"}
-    - [2]{"entity": "people", "role": "adults"} adults [2]{"entity": "people", "role": "kids"} kids
+    - we are [5]{"entity": "people", "role": "adults"} and [1]{"entity": "people", "role": "kids"} child
+    - [2]{"entity": "people", "role": "adults"} [2]{"entity": "people", "role": "kids"} 
     - [3]{"entity": "people", "role": "adults"} adults [4]{"entity": "people", "role": "kids"} kids
-    - [1]{"entity": "people", "role": "adults"} adult [no]{"entity": "people", "role": "kids"} kids
+    - [1]{"entity": "people", "role": "adults"} [no]{"entity": "people", "role": "kids"} kids
 - intent: inform_contacts
   examples: |
     - My email is [example@example.com]{"entity": "contacts", "role": "email"} and my phone number is [+393331234567]{"entity": "contacts", "role": "phno"}
