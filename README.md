@@ -319,8 +319,7 @@ At this point we can proceed to the conversation testing phase
 by analysing the different possible scenarios.
 
 In a first test, the user is asked to identify himself by his
-name and surname; he then has to confirm the details he has just provided.
-just provided.
+name and surname; he then has to confirm the provided details.
 
 Once this is done, the client, in order to get an overview of what the bot is able to
 Once this is done, the customer, in order to get an overview of what the bot can do, can ask what questions are most frequently asked. At this
