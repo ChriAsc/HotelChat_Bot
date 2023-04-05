@@ -316,12 +316,12 @@ _credentials.yml_ file where you enter the access token (obscured for security r
 security reasons), the host (previously created url) and the name of the bot.
 
 At this point we can proceed to the conversation testing phase
-by analysing the different possible scenarios.
+by analysing the different possible scenarios. The examples of tests in Telegram can be seen
+in pdf file, saved in this repository.
 
 In a first test, the user is asked to identify himself by his
 name and surname; he then has to confirm the provided details.
 
-Once this is done, the client, in order to get an overview of what the bot is able to
 Once this is done, the customer, in order to get an overview of what the bot can do, can ask what questions are most frequently asked. At this
 request, the bot will provide a list containing the various functionalities.
 
