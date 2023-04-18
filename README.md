@@ -393,4 +393,4 @@ Finally, as a further improvement to the chatbot, it could be modified
 the training data so as to ensure more human-like behaviour and
 even distinguish different scenarios for different customers.
 
-#### _Disclaimer: images in the text refer to 'Relazione_RasaChatBot.pdf' file_
+#### _Disclaimer: in-text images refer to 'Relazione_RasaChatBot.pdf' file_
