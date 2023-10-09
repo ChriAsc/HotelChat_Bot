@@ -161,7 +161,7 @@ typing_extensions==4.4.0
 tzdata==2022.7
 tzlocal==4.2
 ujson==5.7.0
-urllib3==1.26.14
+urllib3==1.26.17
 w3lib==2.1.1
 wcwidth==0.2.6
 webexteamssdk==1.6.1
